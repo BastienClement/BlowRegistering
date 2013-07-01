@@ -1,0 +1,821 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+/*#raids * {
+	-webkit-backface-visibility: hidden;
+}*/
+
+/* Ninja'ed from WoWHead */
+.c1,.c1 a{color:#C69B6D!important;}
+.c2,.c2 a{color:#F48CBA!important;}
+.c3,.c3 a{color:#AAD372!important;}
+.c4,.c4 a{color:#FFF468!important;}
+.c5,.c5 a{color:#FFF!important;}
+.c6,.c6 a{color:#C41E3B!important;}
+.c7,.c7 a{color:#2359FF!important;}
+.c8,.c8 a{color:#68CCEF!important;}
+.c9,.c9 a{color:#9382C9!important;}
+.c10,.c10 a{color:#008467!important;}
+.c11,.c11 a{color:#FF7C0A!important;}
+
+#raids {
+	margin: 10px;
+	padding-bottom: 10px;
+	min-height: 600px;
+	position: relative;
+	padding-top: 1px;
+	overflow: hidden;
+	font-family: 'Open Sans';
+}
+
+#raids a {
+	cursor: pointer;
+}
+
+#main input, #main select {
+	border: 2px solid rgb(51, 51, 51) !important;
+	background: #262626 !important;
+	color: #eee !important;
+}
+
+#main table,
+#main tr,
+#main td,
+#main th {
+	border: 0px;
+	background: none;
+}
+
+#main th {
+	color: #aaa;
+}
+
+#main table {
+	width: 100%;
+}
+
+.message input {
+	width: 97%;
+}
+
+#calendarWrapper {
+	transition: margin-top ease-in-out 1s;
+	perspective: 5000;
+	transform: translate3d(0,0,0);
+}
+
+#calendarWrapper.open {
+	margin-top: -100%;
+}
+
+#calendarNavigator {
+	font-size: 25px;
+	text-align: center;
+	color: #eee;
+	margin: auto;
+	margin-bottom: 20px;
+	width: 300px;
+}
+
+#calendarNavigator a {
+	padding: 0px 20px 5px 20px;
+	display: inline-block;
+	position: relative;
+	top: -2px;
+}
+
+#calendarNavigator #month-name {
+	width: 150px;
+	display: inline-block;
+}
+
+#calendarNavigator .year {
+	font-size: 14px;
+}
+
+#globalActionsLeft, #globalActionsRight {
+	position: absolute;
+	top: 10px;
+	margin-top: -3px;
+}
+
+#globalActionsLeft {
+	left: 0px;
+}
+
+#globalActionsRight {
+	right: 0px;
+}
+
+#globalActionsLeft a, #globalActionsRight a, a.button {
+	border: 1px solid rgb(85, 85, 85);
+	background-color: rgb(46, 46, 46);
+	padding: 2px 5px 3px 5px;
+	border-radius: 3px;
+	display: inline-block;
+	margin-right: 5px;
+	transition: border ease .3s;
+	cursor: pointer;
+}
+
+a.button.icon, #globalActionsLeft a, #globalActionsRight a {
+	padding-right: 7px;
+}
+
+a.button.tab {
+	border-color: transparent;
+}
+
+a.button.in-line {
+	margin: 0px 3px 0px 3px;
+}
+
+#globalActionsRight a {
+	margin-right: 0px;
+	margin-left: 5px;
+}
+
+#globalActionsLeft a:hover, #globalActionsRight a:hover, a.button:hover, a.button.selected {
+	border-color: rgb(20, 204, 142);
+}
+
+#calendarHeader .slidable {
+	position: relative;
+	opacity: 1;
+	transition: top ease .5s, opacity ease .5s;
+}
+
+#calendarHeader .slidable.slided {
+	top: -65px;
+	opacity: 0;
+}
+
+#globalActionsLeft .slidable, #globalActionsRight .slidable {
+	position: absolute;
+	top: 0px;
+	width: 400px;
+}
+
+#globalActionsLeft .slidable {
+	left: 0px;
+}
+
+#globalActionsRight .slidable {
+	right: 0px;
+	text-align: right;
+}
+
+#headerTitle {
+	position: absolute;
+	top: 0px;
+	left: 400px;
+	right: 400px;
+	font-size: 25px;
+	text-align: center;
+	color: #eee;
+	
+}
+
+#headerTitle .slidable {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+}
+
+#calendarSlider {
+	width: 2090px;
+	transition: margin ease .5s;
+}
+
+#calendarSlider.slided {
+	margin-left: -1000px;
+}
+
+#calendarBlock {
+	float: left;
+	width: 1090px;
+	position: relative;
+}
+
+#sideBlock {
+	float: right;
+	width: 980px;
+	position: relative;
+}
+
+#sideBlock .box {
+	background-color: #262626;
+	border: 2px solid rgb(51, 51, 51);
+	padding: 10px;
+	margin: 10px;
+	position: relative;
+}
+
+#sideBlock .box.with-icon {
+	padding-left: 60px;
+	min-height: 35px;
+}
+
+#sideBlock .box i {
+	position: absolute;
+	top: 3px;
+	left: 5px;
+	float: left;
+	font-size: 35px;
+}
+
+#sideBlock h2 {
+	font-weight: normal;
+	color: #AAA;
+	margin-top: 0px;
+}
+
+#calendarCover {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 89px;
+	display: none;
+	cursor: pointer;
+	opacity: 0.3;
+	border-left: 1px solid #3d3d3d;
+	transition: background ease 0.3s;
+}
+
+#calendarCover:hover {
+	background: rgba(80, 80, 80, 0.2);
+}
+
+.slided #calendarCover {
+	display: block;
+}
+
+#calendarCoverText {
+	font-size: 60px;
+	position: absolute;
+	top: 50%;
+	right: 30px;
+	margin-top: -34px;
+	transition: color ease 0.3s;
+}
+
+#calendarCover:hover #calendarCoverText {
+	color: #fff;
+}
+
+#calendar {
+	width: 100%;
+	height: 650px;
+	border: 1px solid #3d3d3d;
+	transition: opacity ease 0.5s;
+}
+
+#calendar tr {
+	border: 1px solid #3d3d3d;
+}
+
+.slided #calendar {
+	opacity: 0.3;
+}
+
+#calendar th {
+	height: 1px;
+	width: 14.28571428571429%;
+	background-color: #343635;
+	color: #ccc;
+	border: 0;
+	border-bottom: 3px solid #43a282;
+	font-size: 13px;
+}
+
+#calendar td {
+	background: #262626;
+	vertical-align: top;
+	padding: 0px;
+	height: 16%;
+	border: 1px solid #3d3d3d;
+}
+
+#calendar .day {
+	padding: 1px 0px 0px 7px;
+	font-size: 21px;
+	color: #ccc;
+	position: relative;
+}
+
+#calendar .day .actions {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	opacity: 0;
+	transition: opacity ease .3s;
+}
+
+#calendar td:hover .day .actions {
+	opacity: 1;
+}
+
+#calendar .day .actions a {
+	color: inherit;
+	transition: color ease .3s;
+}
+
+#calendar .day .actions a:hover {
+	color: #43a282;
+}
+
+#calendar .events {
+	transition: opacity ease 0.3s;
+}
+
+.slided #calendar .events {
+	opacity: 0;
+}
+
+#calendar .event {
+	padding: 2px;
+	margin: 0px 5px;
+	transition: background ease .3s;
+}
+
+#calendar .event:first-child {
+	margin-top: 0px;
+}
+
+#calendar .event:hover {
+	background: #3d3d3d;
+	cursor: pointer;
+}
+
+#calendar .today .event:hover {
+	background: #262626;
+}
+
+#calendar .event.raid:hover .hour {
+	display: none;
+}
+
+#calendar .event .actions {
+	display: none;
+	float: right;
+	padding-right: 3px;
+}
+
+#calendar .event .actions a {
+	color: #AAA;
+	font-size: 13px;
+	transition: color ease .3s;
+}
+
+#calendar .event .actions i:before {
+	margin: 0px;
+}
+
+#calendar .event .actions .accept:hover {
+	color: #43a282;
+}
+
+#calendar .event .actions .decline:hover {
+	color: #C21414;
+}
+
+#calendar .event:hover .actions {
+	display: block;
+}
+
+#calendar .event .name {
+	color: #C1C100;
+	width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+}
+
+#calendar .event.note .name {
+	color: #AAA;
+}
+
+#calendar .event.accepted .name {
+	color: #43a282;
+}
+
+#calendar .event.declined .name {
+	color: #C21414;
+}
+
+#calendar .day-wrapper {
+	transition: opacity ease .3s;
+}
+
+#calendar .inactive .day-wrapper {
+	opacity: 0.3;
+}
+
+#calendar .inactive:hover .day-wrapper {
+	opacity: 1;
+}
+
+#calendar .today {
+	background: #343434;
+}
+
+#calendar .hour {
+	float: right;
+}
+
+.modal {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: rgba(17, 17, 17, 0.75);
+	z-index: 99999999999;
+}
+
+.modal .message {
+	background-color: rgb(22, 22, 22);
+	border: 2px solid rgb(51, 51, 51);
+	width: 450px;
+	padding: 20px;
+	position: absolute;
+	top: 150px;
+	left: 50%;
+	margin-left: -237px;
+}
+
+.modal .title {
+	font-size: 16px;
+	margin-bottom: 10px;
+	color: #CCC;
+}
+
+.modal a {
+	display: block;
+	margin-top: 30px;
+	float: right;
+}
+
+.character {
+	background-color: #262626;
+	border: 2px solid rgb(51, 51, 51);
+	width: 456px;
+	padding: 10px;
+	margin: 0px 0px 20px 20px;
+	float: left;
+}
+
+.character:nth-child(2n) {
+	margin-left: 0px;
+}
+
+.character.inactive:nth-child(2n) {
+	clear: left;
+}
+
+.character.inactive .thumb {
+	display: none;
+}
+
+.character .thumb {
+	float: left;
+	height: 70px;
+	width: 70px;
+	border: 1px solid #444;
+	margin-right: 10px;
+}
+
+.character .name {
+	font-size: 16px;
+}
+
+.character .name > i {
+	position: relative;
+	top: -2px;
+	font-size: 14px;
+}
+
+.character .name > i:before {
+	margin-left: 0px;
+}
+
+.character .name .guild {
+	font-size: 14px;
+	position: relative;
+	top: -1px;
+	left: 5px;
+}
+
+.character .name .guild i:before {
+	margin: 0px;
+}
+
+.character .actions {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.character .infos {
+	clear: both;
+	margin-top: 15px;
+	padding-top: 10px;
+	border-top: 2px solid rgb(85, 85, 85);
+}
+
+.character .infos th, .character .infos td {
+	padding: 2px 0px;
+}
+
+.character .infos th {
+	text-align: left;
+	width: 1%;
+	white-space: nowrap;
+	padding-right: 10px;
+}
+
+.roster-browser {
+	border: 2px solid rgb(51, 51, 51);
+	padding: 10px;
+	margin-bottom: 20px;
+	height: 300px;
+	overflow: auto;
+}
+
+.roster-browser .char {
+	float: left;
+	width: 14%;
+}
+
+.roster-browser .char a {
+	display: block;
+	padding: 2px 5px;
+	width: 80%;
+}
+
+.roster-browser .char a:hover {
+	background: #262626;
+}
+
+.roster-browser input {
+	margin-bottom: 10px;
+}
+
+.roster-browser .search i {
+	font-size: 16px;
+}
+
+.event-viewer .tabs {
+	width: 240px;
+}
+
+.event-viewer .button.right {
+	float: right;
+}
+
+.event-viewer .chars {
+	margin-top: 32px;
+	margin-bottom: 30px;
+	min-height: 415px;
+	width: 244px;
+	float: left;
+}
+
+.event-viewer .char {
+	position: relative;
+	float: left;
+}
+
+.event-viewer .name, .event-viewer .raid-unit {
+	border: 1px solid rgb(51, 51, 51);
+	background: #262626;
+	width: 100px;
+	margin: 2px 10px 2px 0px;
+	padding: 0px 5px;
+	cursor: pointer;
+}
+
+.event-viewer .used {
+	opacity: 0.3;
+}
+
+.event-viewer .name img, #dragIndicator img, .event-viewer .slot img {
+	position: relative;
+	top: 1px;
+	margin-left: -2px;
+	margin-right: 1px;
+	width: 11px;
+}
+
+.event-viewer .slot img {
+	margin-left: 3px;
+}
+
+.event-viewer .note {
+	position: absolute;
+	top: 3px;
+	left: 95px;
+	/*width: 300px;*/
+	/*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
+}
+
+.event-viewer .registering {
+	margin-top: 50px;
+}
+
+.event-viewer .registering textarea {
+	border: 1px solid rgb(51, 51, 51);
+	background: #262626;
+	width: 226px;
+	min-width: 226x;
+	max-width: 226px;
+	height: 60px;
+	min-height: 60px;
+	max-height: 60px;
+	color: #AAA;
+	font-family: "Open Sans";
+	margin: 10px 0px;
+	font-size: 12px;
+}
+
+.event-viewer .raidcomp {
+	float: left;
+	width: 240px;
+	margin-left: 10px;
+	margin-top: -24px;
+}
+
+.event-viewer .raidcomp .actions {
+	margin-bottom: 16px;
+	padding-left: 5px;
+}
+
+.event-viewer .raidcomp .actions .right {
+	float: right;
+}
+
+.event-viewer .raidcomp .group {
+	float: left;
+	width: 110px;
+	margin: 5px;
+	margin-top: -3px;
+}
+
+.event-viewer .raidcomp .title {
+	text-align: center;
+}
+
+.event-viewer .raidcomp .slot {
+	border: 1px solid rgb(51, 51, 51);
+	background: #262626;
+	width: 110px;
+	height: 17px;
+	margin: 4px 0px;
+	cursor: pointer;
+}
+
+.event-viewer .raidcomp .slot.hover {
+	background: #3d3d3d;
+}
+
+.event-viewer .raidcomp .slot.self, .raidcomp .actions .self:not(.selected) {
+	box-shadow: 0px 0px 1px 1px rgba(255, 244, 104, 0.7);
+}
+
+.event-viewer .raidcomp .slot .warning {
+	float: right;
+	color: #FFF468;
+	margin-right: 1px;
+}
+
+.event-viewer .raidnote {
+	width: 476px;
+	float: left;
+	margin-left: 10px;
+	margin-top: -25px;
+}
+
+.event-viewer.note .raidnote {
+	margin-top: 0px;
+	width: 500px;
+}
+
+.event-viewer .raidnote .box {
+	margin-right: 0px !important;
+}
+
+.event-viewer .raidnote h2 {
+	margin-bottom: 10px;
+}
+
+.event-viewer .eventnote .box {
+	white-space: pre-line;
+}
+
+.event-viewer .raidnote th {
+	text-align: right;
+}
+
+#dragIndicator {
+	position: absolute;
+	z-index: 999;
+	border: 1px solid rgb(51, 51, 51);
+	background: #262626;
+	width: 100px;
+	padding: 0px 5px;
+	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+#loaderWrapper {
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	top: 50%;
+	left: 50%;
+	margin-top: -40px;
+	margin-left: -40px;
+	background: rgba(17, 17, 17, 0.8);
+	box-shadow: 1px 1px 3px rgba(17, 17, 17, 0.5);
+	z-index: 9999;
+	border-radius: 5px;
+}
+
+.loader {
+	position: absolute;
+	padding: 20px 0px;
+	width: 40px;
+	margin: auto;
+	top: 0px;
+	left: 20px;
+}
+
+.loader * {
+	transition: none;
+}
+
+.loader .circle {
+	position: absolute;
+	width: 38px;
+	height: 38px;
+	opacity: 0;
+	transform: rotate(225deg);
+
+	animation-iteration-count: infinite;
+	animation-name: orbit;
+	animation-duration: 5.5s;
+}
+
+.loader .circle:after {
+	content: '';
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	border-radius: 5px;
+	background: #fff;
+}
+
+.loader .circle:nth-child(1) {  animation-delay:  0ms; }
+.loader .circle:nth-child(2) {  animation-delay:  260ms; }
+.loader .circle:nth-child(3) {  animation-delay:  520ms; }
+.loader .circle:nth-child(4) {  animation-delay:  780ms; }
+.loader .circle:nth-child(5) {  animation-delay: 1040ms; }
+
+@keyframes orbit {
+  0% {
+    transform: rotate(225deg);
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  7% {
+    transform: rotate(345deg);
+    animation-timing-function: linear;
+  }
+  30% {
+    transform: rotate(455deg);
+    animation-timing-function: ease-in-out;
+  }
+  39% {
+    transform: rotate(690deg);
+    animation-timing-function: linear;
+  }
+  70% {
+    transform: rotate(815deg);
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  75% {
+    transform: rotate(945deg);
+    animation-timing-function: ease-out;
+  }
+  76% {
+    transform: rotate(945deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(945deg);
+    opacity: 0;
+  }
+}
