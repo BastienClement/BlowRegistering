@@ -158,6 +158,23 @@ refresh_chars();
 // --- Call --------------------------------------------------------------------
 
 switch($call):
+	case "announce":
+		if(!is_blow_officier()):
+			set_error("Vous n'avez pas l'autorisation de publier des annonces.");
+			break;
+		endif;
+		
+		$text = $db->sql_escape(trim($args));
+		$now = time();
+		
+		if(!$text):
+			set_error("Annonce invalide.");
+			break;
+		endif;
+		
+		$db->sql_query("INSERT INTO `phpbb_mchat` (`user_id`, `user_ip`, `message`, `message_time`) VALUES (144, '127.0.0.1', '$text', $now)");
+		break;
+	
 	case "associate-blow":
 		$id = cast_cid($args);
 		
