@@ -407,6 +407,7 @@ a.button.in-line {
 
 #calendar .day-wrapper {
 	transition: opacity ease .3s;
+	padding-bottom: 5px;
 }
 
 #calendar .inactive .day-wrapper {
