@@ -31,6 +31,57 @@
 	cursor: pointer;
 }
 
+#raids a.context .icon-down-open {
+	border-left: 1px solid rgb(85, 85, 85);
+	margin-left: 4px;
+	margin-right: -6px;
+	transition: border ease .3s;
+	position: relative;
+}
+
+#raids a.context:hover .icon-down-open {
+	border-color: rgb(20, 204, 142);
+}
+
+#raids a.context ul {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 0;
+	padding-top: 20px;
+	z-index: 9999;
+	list-style: none;
+	transform: scaleY(0);
+	transform-origin: 0px 20px;
+	transition: transform ease .3s;
+}
+
+#raids a.context:hover ul {
+	transform: scaleY(1);
+}
+
+#raids a.context li {
+	border: 1px solid rgb(85, 85, 85);
+	border-top-width: 0px;
+	background-color: rgb(46, 46, 46);
+	padding: 2px 5px 3px 5px;
+	transition: color ease .3s;
+	color: rgb(20, 204, 142);
+}
+
+#raids a.context li:hover {
+	color: #51e0b0;
+}
+
+#raids a.context li:first-child {
+	border-radius: 3px 3px 0px 0px;
+	border-top-width: 1px;
+}
+
+#raids a.context li:last-child {
+	border-radius: 0px 0px 3px 3px;
+}
+
 #main input, #main select {
 	border: 2px solid rgb(51, 51, 51) !important;
 	background: #262626 !important;

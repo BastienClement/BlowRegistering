@@ -76,6 +76,16 @@
 			<div class="slidable" ng-class="{ slided: display != 'associate' }">
 				<a ng-click="setDisplay('characters');"><i class="icon-left"></i> Retour</a>
 			</div>
+			<div class="slidable" ng-class="{ slided: display != 'event' }">
+				<a class="context" ng-show="$bt.officier"><i class="icon-signal"></i> Annoncer <i class="icon-down-open"></i>
+					<ul>
+						<li ng-click="announce('new-events')">Annoncer de nouveaux événements</li>
+						<li ng-click="announce('missing-registering')">Annoncer les oublis de registering</li>
+						<li ng-click="announce('raid-comp-done')">Annoncer la composition du raid</li>
+						<li ng-click="announce('raid-off')">Annoncer un raid-off</li>
+					</ul>
+				</a>
+			</div>
 		</div>
 		
 		<div id="calendarNavigator" class="slidable" ng-class="{ slided: display != 'calendar' }">
