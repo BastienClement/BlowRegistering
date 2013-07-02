@@ -38,6 +38,8 @@ function blow_header() {
 	$head = ob_get_contents();
 	ob_end_clean();
 	
+	$head = str_replace("<link", "<link data-noprefix='1'", $head);
+	
 	echo str_replace("</head>", implode("\n", $header_inject)."\n</head>", $head);
 }
 
