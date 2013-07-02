@@ -110,8 +110,6 @@
 
 #calendarWrapper {
 	transition: margin-top ease-in-out 1s;
-	perspective: 5000;
-	transform: translate3d(0,0,0);
 }
 
 #calendarWrapper.open {
@@ -682,7 +680,7 @@ a.button.in-line {
 	border: 1px solid rgb(51, 51, 51);
 	background: #262626;
 	width: 226px;
-	min-width: 226x;
+	min-width: 226px;
 	max-width: 226px;
 	height: 60px;
 	min-height: 60px;
