@@ -45,26 +45,26 @@
 
 #raids a.context ul {
 	position: absolute;
-	top: 0px;
+	top: -12px;
 	left: 0px;
 	padding: 0;
-	padding-top: 20px;
 	z-index: 9999;
 	list-style: none;
-	transform: scaleY(0);
-	transform-origin: 0px 20px;
+	transform: scaleY(0) scaleX(0);
+	transform-origin: 0px 0px;
 	transition: transform ease .3s;
+	box-shadow: 0px 0px 5px rgba(17, 17, 17, 0.75);
 }
 
 #raids a.context:hover ul {
-	transform: scaleY(1);
+	transform: scaleY(1) scaleX(1);
 }
 
 #raids a.context li {
 	border: 1px solid rgb(85, 85, 85);
 	border-top-width: 0px;
 	background-color: rgb(46, 46, 46);
-	padding: 2px 5px 3px 5px;
+	padding: 8px;
 	transition: color ease .3s;
 	color: rgb(20, 204, 142);
 }
@@ -80,6 +80,11 @@
 
 #raids a.context li:last-child {
 	border-radius: 0px 0px 3px 3px;
+}
+
+#raids a.context li.text, #raids a.context .text {
+	color: #AAA;
+	font-size: 11px;
 }
 
 #main input, #main select {
