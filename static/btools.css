@@ -31,6 +31,14 @@
 	cursor: pointer;
 }
 
+#raids a.context li {
+	cursor: pointer;
+}
+
+#raids a.context, #raids a.context li.text {
+	cursor: default;
+}
+
 #raids a.context .icon-down-open {
 	border-left: 1px solid rgb(85, 85, 85);
 	margin-left: 4px;
@@ -39,8 +47,8 @@
 	position: relative;
 }
 
-#raids a.context:hover .icon-down-open {
-	border-color: rgb(20, 204, 142);
+#raids a.context:hover {
+	border-color: rgb(85, 85, 85);
 }
 
 #raids a.context ul {
