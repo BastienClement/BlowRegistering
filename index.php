@@ -79,25 +79,25 @@
 			<div class="slidable" ng-class="{ slided: display != 'event' }">
 				<a class="context" ng-show="$bt.officier"><i class="icon-megaphone"></i> Annoncer <i class="icon-down-open"></i>
 					<ul>
-						<li ng-click="announce('new-events')">
-							<i class="icon-list-add"></i> Annoncer de nouveaux événements
-							<div class="text">&laquo; De nouveaux événements sont disponibles sur le calendar. Pensez à vous register. &raquo;</div>
-						</li>
-						<li ng-click="announce('missing-registering')">
-							<i class="icon-hourglass"></i> Annoncer les oublis de registering
-							<div class="text">&laquo; Oublis de registering pour {event}: {a}, {b}, ... . Merci de vous register au plus vite. &raquo;</div>
-						</li>
-						<li ng-click="announce('raid-comp-available')">
-							<i class="icon-check"></i> Annoncer la composition du raid *
-							<div class="text">&laquo; La compo pour l'événement {event} est disponible. &raquo;</div>
-						</li>
-						<li ng-click="announce('raid-off')">
-							<i class="icon-trash"></i> Annoncer un raid-off *
-							<div class="text">&laquo; L'événement {event} est annulé. &raquo;</div>
-						</li>
 						<li class="text">
 							Les annonces sont des textes pré-définis publiés automatiquement dans la shoutbox du forum.<br>
 							Les éléments marqués d'une * ferment automatiquement l'événement.
+						</li>
+						<li ng-click="announce('event-new')">
+							<i class="icon-list-add"></i> Annoncer de nouveaux événements
+							<div class="text">&laquo; De nouveaux événements sont disponibles sur le calendar. Pensez à vous register. &raquo;</div>
+						</li>
+						<li ng-click="announce('event-registering')">
+							<i class="icon-hourglass"></i> Annoncer les oublis de registering
+							<div class="text">&laquo; Oublis de registering pour {event}: {a}, {b}, ... . Merci de vous register au plus vite. &raquo;</div>
+						</li>
+						<li ng-click="announce('event-comp-available')">
+							<i class="icon-check"></i> Annoncer la composition du raid *
+							<div class="text">&laquo; La compo pour l'événement {event} est disponible. &raquo;</div>
+						</li>
+						<li ng-click="announce('event-off')">
+							<i class="icon-trash"></i> Annoncer un raid-off *
+							<div class="text">&laquo; L'événement {event} est annulé. &raquo;</div>
 						</li>
 					</ul>
 				</a>
