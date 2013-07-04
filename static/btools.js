@@ -203,9 +203,15 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	var standby_counter = 0;
 	var lock = false;
 	
+	var queue = [];
+	
 	$scope.showLoader = false;
 	$scope.update = function(call, call_args, ignore_lock) {
-		if(dead || ((lock || $bt.tag === false) && !ignore_lock)) return;
+		if(dead || ((lock || $bt.tag === false) && !ignore_lock)) {
+			if(call)
+				queue.push({ call: call, call_args: call_args });
+			return;
+		}
 		
 		clearTimeout(update_timeout);
 		var this_tid = ++tid;
@@ -267,7 +273,12 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 				
 				if(call && !ignore_lock) {
 					lock = false;
-					$scope.showLoader = false;
+					if(queue.length > 0) {
+						var c = queue.shift();
+						$scope.update(c.call, c.call_args);
+					} else {
+						$scope.showLoader = false;
+					}
 				}
 				
 				if($bt.chars.length < 1 && $scope.display != "characters" && $scope.display != "associate") {
@@ -964,9 +975,11 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				return strings[0] + " de registering pour " + title + ": " + nrString + ". Merci de " + strings[1] + " au plus vite.";
 				
 			case "event-comp-available":
+				if(!preview) $scope.update("set-event-state", { event: e.id, state: 1 });
 				return "La compo pour l'événement " + title + " est disponible.";
 			
 			case "event-off":
+				if(!preview) $scope.update("set-event-state", { event: e.id, state: 2 });
 				return "L'événement " + title + " est annulé.";
 		}
 	};
