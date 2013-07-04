@@ -574,6 +574,24 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	
 	$scope.updateDisplay();
 	
+	// --- Announces -----------------------------------------------------------
+	
+	$scope.announce = function(which) {
+		var announce = false;
+		
+		switch(which) {
+			case "event-new":
+			case "event-registering":
+			case "event-comp-available":
+			case "event-off":
+				announce = $evScope.announce(which);
+				break;
+		}
+		
+		if(announce)
+			$scope.update("announce", announce);
+	};
+	
 	// --- Bootstrap -----------------------------------------------------------
 	
 	var decline_modal = false;
@@ -901,6 +919,46 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	
 	$scope.setEventState = function(state) {
 		$scope.update('set-event-state', { event: $scope.getEvent().id, state: state });
+	};
+	
+	$scope.announce = function(which) {
+		if(!$scope.data_available)
+			return false;
+			
+		var e = $scope.getEvent();
+		var title = "<b>" + e.title + "</b> à <b>" + e.date.match(/\d{2}:\d{2}/)[0] + "</b>";
+			
+		switch(which) {
+			case "event-new":
+				return "De nouveaux événements sont disponibles sur le calendar. Pensez à vous register.";
+				
+			case "event-registering":
+				var nr = e.answers.filter(function(a) { return (a.group_id == 11) ? false : a.answer == 0; });
+				var nrString = nr.reduce(function(a, b) { return (a ? a + ", " : "") + "<b class='c" + b.class + "'>" + b.name + "</b>"; }, "")
+				
+				var strings;
+				switch(nr.length) {
+					case 0:
+						$s.error = "Il n'y a aucun oubli de registering";
+						return false;
+					
+					case 1:
+						strings = ["Oubli", "te register"];
+						break;
+					
+					default:
+						strings = ["Oublis", "vous register"];
+						break;
+				}
+				
+				return strings[0] + " de registering pour " + title + ": " + nrString + ". Merci de " + strings[1] + " au plus vite.";
+				
+			case "event-comp-available":
+				return "La compo pour l'événement " + title + " est disponible.";
+			
+			case "event-off":
+				return "L'événement " + title + " est annulé.";
+		}
 	};
 });
 
