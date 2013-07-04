@@ -459,6 +459,10 @@ a.button.in-line {
 	color: #C21414;
 }
 
+#calendar .event.canceled .name {
+	color: #d66f2b;
+}
+
 #calendar .day-wrapper {
 	transition: opacity ease .3s;
 	padding-bottom: 5px;

@@ -165,15 +165,23 @@
 								</div>
 							</div>
 							<div class="events">
-								<div class="event" ng-repeat="event in data.events" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, locked: event.locked }" ng-click="setDisplay('event', event.id, { type: event.type, title: event.title })">
+								<div class="event" ng-repeat="event in data.events" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, canceled: event.state == 2 }" ng-click="setDisplay('event', event.id, { type: event.type, title: event.title })">
 									<a class="name">
 										<i ng-class="{ 'icon-flag': event.type == 2 }"></i>
 										{{ event.title }}
 									</a>
 									<div class="hour">{{ event.hour }}</div>
-									<div class="actions" ng-show="event.type == 1 && !event.locked">
-										<a class="accept" ng-click="update('register', { id: event.id, answer: 1 })" eat-click><i class="icon-check"></i></a>
-										<a class="decline" ng-click="displayDeclineModal(event.id)" eat-click><i class="icon-cancel"></i></a>
+									<div class="actions" ng-show="event.type == 1" ng-switch="event.state">
+										<div ng-switch-when="0">
+											<a class="accept" ng-click="update('register', { id: event.id, answer: 1 })" eat-click><i class="icon-check"></i></a>
+											<a class="decline" ng-click="displayDeclineModal(event.id)" eat-click><i class="icon-cancel"></i></a>
+										</div>
+										<div ng-switch-when="1">
+											<i class="icon-lock" title="Fermé"></i>
+										</div>
+										<div ng-switch-when="2">
+											<i class="icon-block" title="Annulé"></i>
+										</div>
 									</div>
 								</div>
 							</div>
