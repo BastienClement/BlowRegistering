@@ -326,9 +326,9 @@
 						</div>
 					</div>
 					<div class="raidnote">
-						<div class="eventnote" ng-show="getEvent().event_note">
+						<div class="eventnote" ng-show="getEvent().event_note || (getEvent().editable && !getEvent().state)">
 							<h2><i class="icon-pencil"></i> Note de l'évenement</h2>
-							<div class="box">{{ getEvent().event_note }}</div>
+							<div class="box">{{ getEvent().event_note || "[ Aucune note rédigée ]" }}</div>
 						</div>
 						<h2><i class="icon-megaphone"></i> Informations de l'événement</h2>
 						<div ng-show="!data_available">Chargement en cours...</div>
