@@ -286,7 +286,7 @@
 							<span ng-show="data_available">Aucun personnage dans cette section.</span>
 							<span ng-show="!data_available">Chargement en cours...</span>
 						</div>
-						<div class="registering" ng-show="!getEvent().locked">
+						<div class="registering" ng-show="!getEvent().state">
 							<div class="status">
 								<a class="button tab icon" ng-class="{ selected: answer == 1 }" ng-click="answer = 1"><i class="icon-check"></i> Disponible</a>
 								<a class="button tab icon" ng-class="{ selected: answer == 2 }" ng-click="answer = 2"><i class="icon-block"></i> Indisponible</a>
@@ -339,19 +339,21 @@
 								<th><span ng-show="getEvent().type == 1">Status</span></th>
 								<td>
 									<div ng-show="getEvent().editable && getEvent().type == 1">
-										<a class="button tab" ng-click="setEventLocked(0)" ng-class="{ selected: !getEvent().locked }">Ouvert</a>
-										<a class="button tab" ng-click="setEventLocked(1) " ng-class="{ selected: getEvent().locked }">Fermé</a>
+										<a class="button tab" ng-click="setEventState(0)" ng-class="{ selected: !getEvent().state }">Ouvert</a>
+										<a class="button tab" ng-click="setEventState(1) " ng-class="{ selected: getEvent().state == 1 }">Fermé</a>
+										<a class="button tab" ng-click="setEventState(2) " ng-class="{ selected: getEvent().state == 2 }">Annulé</a>
 									</div>
 									<div ng-show="!getEvent().editable && getEvent().type == 1">
-										<div ng-switch="getEvent().locked">
-											<span ng-switch-when="true">Fermé</span>
-											<span ng-switch-when="false">Ouvert</span>
+										<div ng-switch="getEvent().state">
+											<span ng-switch-when="2">Annulé</span>
+											<span ng-switch-when="1">Fermé</span>
+											<span ng-switch-when="0">Ouvert</span>
 										</div>
 									</div>
 								</td>
 							</tr>
 						</table>
-						<div style="width: 75%; margin-left: 87px; font-size: 11px;" ng-show="getEvent().editable && getEvent().type == 1">
+						<div style="width: 75%; margin-left: 75px; font-size: 11px;" ng-show="getEvent().editable && getEvent().type == 1">
 							<i class="icon-help-circled"></i> 
 							Tant qu'un événement est ouvert, le raid-comp ainsi que la note d'événement
 							ne seront pas visible à l'exeption du créateur de l'événement et des officiers.

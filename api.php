@@ -52,7 +52,7 @@ function cast_event(&$row) {
 	cast_int($row["id"]);
 	cast_int($row["type"]);
 	cast_int($row["owner"]);
-	cast_bool($row["locked"]);
+	cast_int($row["state"]);
 	
 	if(isset($row["answer"])):
 		cast_int($row["answer"]);
@@ -271,7 +271,7 @@ switch($call):
 		require_chars();
 		$id = (int) $args["id"];
 		
-		$db->sql_query("SELECT id FROM bt_events WHERE id = $id AND type = 1 AND date >= NOW() AND locked = 0 LIMIT 1");
+		$db->sql_query("SELECT id FROM bt_events WHERE id = $id AND type = 1 AND date >= NOW() AND state = 0 LIMIT 1");
 		if($db->sql_affectedrows() < 1):
 			set_error("Cet événement est passé et il n'est plus possible de s'y enregistrer.");
 			break;
@@ -311,17 +311,17 @@ switch($call):
 		
 	case "accept-all":
 		require_chars();
-		$db->sql_query("INSERT INTO bt_answers (event, user, answer, time) SELECT id AS event, $u AS user, 1 AS answer, NOW() AS time FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.user = $u AND a.event = e.id WHERE e.type = 1 AND e.date >= NOW() AND locked = 0 AND a.answer IS NULL");
+		$db->sql_query("INSERT INTO bt_answers (event, user, answer, time) SELECT id AS event, $u AS user, 1 AS answer, NOW() AS time FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.user = $u AND a.event = e.id WHERE e.type = 1 AND e.date >= NOW() AND state = 0 AND a.answer IS NULL");
 		break;
 	
 	case "set-raidcomp":
 	case "unset-raidcomp":
-	case "set-event-locked":
+	case "set-event-state":
 		$eventid = (int) $args["event"];
-		$db->sql_query("SELECT owner, locked FROM bt_events WHERE id = $eventid LIMIT 1");
+		$db->sql_query("SELECT owner, state FROM bt_events WHERE id = $eventid LIMIT 1");
 		$event = $db->sql_fetchrow();
 		
-		if(!$event || ($event["locked"] && $call != "set-event-locked") || !is_user_authorized($event["owner"])):
+		if(!$event || ($event["state"] && $call != "set-event-state") || !is_user_authorized($event["owner"])):
 			set_error("Vous n'êtes pas autorisé à effectuer cette action.");
 			break;
 		endif;
@@ -357,9 +357,13 @@ switch($call):
 				endswitch;
 				break;
 			
-			case "set-event-locked":
-				$state = $args["locked"] == "1" ? "1" : "0";
-				$db->sql_query("UPDATE bt_events SET locked = $state WHERE id = $eventid LIMIT 1");
+			case "set-event-state":
+				$state = (int) $args["state"];
+				if($state < 0 || $state > 2):
+					set_error("État d'événement non valide.");
+					break;
+				endif;
+				$db->sql_query("UPDATE bt_events SET state = $state WHERE id = $eventid LIMIT 1");
 		endswitch;
 		break;
 endswitch;
@@ -370,7 +374,7 @@ endswitch;
 if($d == "event"):
 	$id = (int) $a;
 	
-	$db->sql_query("SELECT e.id, e.title, e.type, e.desc, e.date, e.owner, e.event_note, e.locked, a.answer, a.time, a.note, u.username AS owner_name FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.event = e.id AND a.user = $u LEFT JOIN phpbb_users AS u ON u.user_id = e.owner WHERE e.id = $id LIMIT 1");
+	$db->sql_query("SELECT e.id, e.title, e.type, e.desc, e.date, e.owner, e.event_note, e.state, a.answer, a.time, a.note, u.username AS owner_name FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.event = e.id AND a.user = $u LEFT JOIN phpbb_users AS u ON u.user_id = e.owner WHERE e.id = $id LIMIT 1");
 	if(!$event = $db->sql_fetchrow()):
 		set_error("L'événement sélectionné n'existe plus.");
 		set_redirect("calendar");
@@ -388,7 +392,7 @@ if($d == "event"):
 		endwhile;
 		
 		$event["raidcomp"] = [];
-		if($event["locked"] || $event["editable"]):
+		if($event["state"] || $event["editable"]):
 			$db->sql_query("SELECT rc.comp, rc.slot, c.id, c.name, c.server, c.class, c.role, c.owner, c.is_blow FROM bt_raidcomps AS rc, bt_chars AS c WHERE c.id = rc.char AND rc.event = $id ORDER BY rc.slot ASC");
 			while($row = $db->sql_fetchrow()):
 				$row["comp"] = (int) $row["comp"];
@@ -420,7 +424,7 @@ if($d == "calendar"):
 
 	$return["events"] = [];
 
-	$db->sql_query("SELECT e.id, e.title, e.type, e.desc, e.date, e.owner, e.locked, a.answer, a.time, a.note, u.username AS owner_name FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.event = e.id AND a.user = $u LEFT JOIN phpbb_users AS u ON u.user_id = e.owner WHERE e.date > \"$lower\" AND e.date < \"$upper\"");
+	$db->sql_query("SELECT e.id, e.title, e.type, e.desc, e.date, e.owner, e.state, a.answer, a.time, a.note, u.username AS owner_name FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.event = e.id AND a.user = $u LEFT JOIN phpbb_users AS u ON u.user_id = e.owner WHERE e.date > \"$lower\" AND e.date < \"$upper\"");
 	while($row = $db->sql_fetchrow()):
 		$day_id = explode(" ", $row["date"])[0];
 		if(!isset($return["events"][$day_id]))

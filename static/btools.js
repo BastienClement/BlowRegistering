@@ -777,7 +777,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	$scope.dragStart = function(id, e, group, slot) {
 		var event = $scope.getEvent();
 		
-		if(!event.editable || event.locked) return false;
+		if(!event.editable || event.state) return false;
 		
 		var c = false;
 		event.answers.some(function(a) {
@@ -899,8 +899,8 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		return false;
 	}
 	
-	$scope.setEventLocked = function(state) {
-		$scope.update('set-event-locked', { event: $scope.getEvent().id, locked: state });
+	$scope.setEventState = function(state) {
+		$scope.update('set-event-state', { event: $scope.getEvent().id, state: state });
 	};
 });
 
