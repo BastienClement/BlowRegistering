@@ -605,10 +605,12 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 				return "« " + announce.replace(/<[^>]+>/g, "") + " »"
 			else
 				return $scope.update("announce", announce);
-		}
-		
-		if(preview) {
-			return "Cette annonce ne peux pas être envoyée..."
+		} else {
+			if(preview) {
+				return "[ Cette annonce ne peux pas être envoyée ]"
+			} else {
+				$scope.error = "Cette annonce ne peux pas être envoyée.";
+			}
 		}
 	};
 	
@@ -959,8 +961,6 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				var strings;
 				switch(nr.length) {
 					case 0:
-						if(!preview)
-							$s.error = "Il n'y a aucun oubli de registering";
 						return false;
 					
 					case 1:
