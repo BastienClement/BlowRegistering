@@ -85,19 +85,19 @@
 						</li>
 						<li ng-click="announce('event-new')">
 							<i class="icon-list-add"></i> Annoncer de nouveaux événements
-							<div class="text">&laquo; De nouveaux événements sont disponibles sur le calendar. Pensez à vous register. &raquo;</div>
+							<div class="text">{{ announce('event-new', true) }}</div>
 						</li>
 						<li ng-click="announce('event-registering')">
 							<i class="icon-hourglass"></i> Annoncer les oublis de registering
-							<div class="text">&laquo; Oublis de registering pour {event}: {a}, {b}, ... . Merci de vous register au plus vite. &raquo;</div>
+							<div class="text">{{ announce('event-registering', true) }}</div>
 						</li>
 						<li ng-click="announce('event-comp-available')">
 							<i class="icon-check"></i> Annoncer la composition du raid *
-							<div class="text">&laquo; La compo pour l'événement {event} est disponible. &raquo;</div>
+							<div class="text">{{ announce('event-comp-available', true) }}</div>
 						</li>
 						<li ng-click="announce('event-off')">
 							<i class="icon-trash"></i> Annoncer un raid-off *
-							<div class="text">&laquo; L'événement {event} est annulé. &raquo;</div>
+							<div class="text">{{ announce('event-off', true) }}</div>
 						</li>
 					</ul>
 				</a>

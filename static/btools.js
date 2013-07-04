@@ -576,7 +576,7 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	
 	// --- Announces -----------------------------------------------------------
 	
-	$scope.announce = function(which) {
+	$scope.announce = function(which, preview) {
 		var announce = false;
 		
 		switch(which) {
@@ -584,12 +584,21 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 			case "event-registering":
 			case "event-comp-available":
 			case "event-off":
-				announce = $evScope.announce(which);
+				if($evScope)
+					announce = $evScope.announce(which, preview);
 				break;
 		}
 		
-		if(announce)
-			$scope.update("announce", announce);
+		if(announce) {
+			if(preview)
+				return "« " + announce.replace(/<[^>]+>/g, "") + " »"
+			else
+				return $scope.update("announce", announce);
+		}
+		
+		if(preview) {
+			return "Cette annonce ne peux pas être envoyée..."
+		}
 	};
 	
 	// --- Bootstrap -----------------------------------------------------------
@@ -921,7 +930,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		$scope.update('set-event-state', { event: $scope.getEvent().id, state: state });
 	};
 	
-	$scope.announce = function(which) {
+	$scope.announce = function(which, preview) {
 		if(!$scope.data_available)
 			return false;
 			
@@ -939,7 +948,8 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				var strings;
 				switch(nr.length) {
 					case 0:
-						$s.error = "Il n'y a aucun oubli de registering";
+						if(!preview)
+							$s.error = "Il n'y a aucun oubli de registering";
 						return false;
 					
 					case 1:
