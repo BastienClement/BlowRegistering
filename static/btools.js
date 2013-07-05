@@ -995,11 +995,11 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				
 			case "event-comp-available":
 				if(!preview) $scope.update("set-event-state", { event: e.id, state: 1 });
-				return "La compo pour l'événement " + title + " est disponible.";
+				return "La compo pour l'événement " + title + " est maintenant disponible.";
 			
 			case "event-off":
 				if(!preview) $scope.update("set-event-state", { event: e.id, state: 2 });
-				return "L'événement " + title + " est annulé.";
+				return "L'événement " + title + " est annulé. Pensez à vous register pour les prochains événments.";
 		}
 	};
 });
