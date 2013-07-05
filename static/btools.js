@@ -968,6 +968,8 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 			
 		var e = $scope.getEvent();
 		var title = "<b>" + e.title + "</b> à <b>" + e.date.match(/\d{2}:\d{2}/)[0] + "</b>";
+		
+		if(e.state && which != "event-new") return false;
 			
 		switch(which) {
 			case "event-new":
