@@ -1006,22 +1006,6 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	};
 });
 
-BlowTools.controller("RaidCompSlot", function($scope, $element) {
-	console.log("init raid comp slot", $element.data("slotid"));
-});
-
-BlowTools.directive("raidUnit", function() {
-	return {
-		restrict: "E",
-		replace: true,
-		scope: { charid:"@" },
-		templateUrl: 'RaidUnitTpl',
-		link: function(scope, element, attrs) {
-			scope.char = { role: "DPS" }
-		}
-	};
-});
-
 BlowTools.filter("markdown", function() {
 	var markdown = new Showdown.converter();
 	return function(input) {
@@ -1035,13 +1019,5 @@ if(HTML5Nav) {
 		$exec();
 	});
 }
-
-/*
-jQuery(function($) {
-	$(document).mousemove(function(event) {
-		$("#loader").css({left: event.pageX + 10, top: event.pageY + 10});
-	});
-});
-*/
 
 })();
