@@ -327,8 +327,15 @@
 					</div>
 					<div class="raidnote">
 						<div class="eventnote" ng-show="getEvent().event_note || (getEvent().editable && !getEvent().state)">
+							<div ng-show="!getEvent().state">
+								<a class="button icon" ng-click="setEventEditing($event.ctrlKey)" ng-show="getEvent().editing != $bt.username"><i class="icon-pencil"></i> Editer la note</a>
+								<a class="button icon" ng-click="setEventEditing(null)" ng-show="getEvent().editing == $bt.username"><i class="icon-floppy"></i> Enregistrer</a>
+							</div>
 							<h2><i class="icon-pencil"></i> Note de l'évenement</h2>
-							<div class="box">{{ getEvent().event_note || "[ Aucune note rédigée ]" }}</div>
+							<div class="box" ng-show="getEvent().editing != $bt.username">{{ getEvent().event_note || "[ Aucune note rédigée ]" }}<em ng-show="getEvent().editing">
+							
+							En cours d'édition par <strong>{{ getEvent().editing }}</strong>...</em></div>
+							<textarea class="box" ng-model="eventNoteText" ng-show="getEvent().editing == $bt.username"></textarea>
 						</div>
 						<h2><i class="icon-megaphone"></i> Informations de l'événement</h2>
 						<div ng-show="!data_available">Chargement en cours...</div>

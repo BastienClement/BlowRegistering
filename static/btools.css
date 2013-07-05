@@ -780,6 +780,25 @@ a.button.in-line {
 
 .event-viewer .eventnote .box {
 	white-space: pre-line;
+	margin-bottom: 20px !important;
+}
+
+.event-viewer .eventnote textarea {
+	background: none;
+	width: 442px;
+	min-width: 442px;
+	max-width: 442px;
+	height: 300px;
+	color: #AAA;
+	font-family: 'Open Sans';
+	font-size: 12px;
+	margin-top: 0px !important;
+}
+
+.event-viewer .eventnote .button {
+	float: right;
+	margin-top: 2px;
+	margin-right: 0px;
 }
 
 .event-viewer .raidnote th {

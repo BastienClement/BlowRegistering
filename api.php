@@ -317,6 +317,7 @@ switch($call):
 	case "set-raidcomp":
 	case "unset-raidcomp":
 	case "set-event-state":
+	case "set-event-editing":
 		$eventid = (int) $args["event"];
 		$db->sql_query("SELECT owner, state FROM bt_events WHERE id = $eventid LIMIT 1");
 		$event = $db->sql_fetchrow();
@@ -364,6 +365,30 @@ switch($call):
 					break;
 				endif;
 				$db->sql_query("UPDATE bt_events SET state = $state WHERE id = $eventid LIMIT 1");
+				break;
+			
+			case "set-event-editing":
+				$editing = $db->sql_escape($args["editing"]);
+				if(isset($args["text"])):
+					$text = $db->sql_escape(trim($args["text"]));
+				endif;
+				$force = $args["force"] == "true";
+				
+				if(empty($editing)):
+					$text = empty($text) ? "NULL" : "'$text'";
+					$db->sql_query("UPDATE bt_events SET editing = NULL, event_note = $text WHERE id = $eventid LIMIT 1");
+				else:
+					$db->_sql_transaction("begin");
+					$db->sql_query("SELECT id FROM bt_events WHERE id = $eventid AND editing IS NULL LIMIT 1");
+					if($db->sql_affectedrows() < 1):
+						if(!$force):
+							set_error("Cette note est déjà en cours d'édition et ne peux pas être éditée pour le moment.");
+							break;
+						endif;
+					endif;
+					$db->sql_query("UPDATE bt_events SET editing = '$editing' WHERE id = $eventid LIMIT 1");
+					$db->_sql_transaction("commit");
+				endif;
 		endswitch;
 		break;
 endswitch;
@@ -374,7 +399,7 @@ endswitch;
 if($d == "event"):
 	$id = (int) $a;
 	
-	$db->sql_query("SELECT e.id, e.title, e.type, e.desc, e.date, e.owner, e.event_note, e.state, a.answer, a.time, a.note, u.username AS owner_name FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.event = e.id AND a.user = $u LEFT JOIN phpbb_users AS u ON u.user_id = e.owner WHERE e.id = $id LIMIT 1");
+	$db->sql_query("SELECT e.id, e.title, e.type, e.desc, e.date, e.owner, e.event_note, e.state, e.editing, a.answer, a.time, a.note, u.username AS owner_name FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.event = e.id AND a.user = $u LEFT JOIN phpbb_users AS u ON u.user_id = e.owner WHERE e.id = $id LIMIT 1");
 	if(!$event = $db->sql_fetchrow()):
 		set_error("L'événement sélectionné n'existe plus.");
 		set_redirect("calendar");
@@ -455,6 +480,9 @@ $return["officier"] = is_blow_officier();
 
 // Signature tag
 $return["tag"] = sha1(json_encode($return));
+
+// Username
+$return["username"] = $user->data["username"];
 
 // Echo
 $return["display"] = $d;

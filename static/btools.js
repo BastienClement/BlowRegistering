@@ -950,6 +950,18 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		$scope.update('set-event-state', { event: $scope.getEvent().id, state: state });
 	};
 	
+	$scope.$watch('getEvent().event_note', function(newValue) {
+		$scope.eventNoteText = newValue;
+	});
+	
+	$scope.setEventEditing = function(force) {
+		if(force === null) {
+			$scope.update('set-event-editing', { event: $scope.getEvent().id, editing: "", text: $scope.eventNoteText });
+		} else {
+			$scope.update('set-event-editing', { event: $scope.getEvent().id, editing: $bt.username, force: force });
+		}
+	};
+	
 	$scope.announce = function(which, preview) {
 		if(!$scope.data_available)
 			return false;
