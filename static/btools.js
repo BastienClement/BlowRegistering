@@ -1001,7 +1001,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 			
 			case "event-off":
 				if(!preview) $scope.update("set-event-state", { event: e.id, state: 2 });
-				return "L'événement " + title + " est annulé. Pensez à vous register pour les prochains événments.";
+				return "L'événement " + title + " est annulé. Pensez à vous register pour les prochains événements.";
 		}
 	};
 });
