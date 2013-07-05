@@ -1,5 +1,6 @@
 <?php
 
+define("PHPBB_QUIET_VISIT", true);
 require "core.php";
 
 $u = $user->data["user_id"];
