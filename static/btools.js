@@ -1025,4 +1025,12 @@ if(HTML5Nav) {
 	});
 }
 
+$(function() {
+	$(".panel").scroll(function() {
+		if($(this).scrollLeft() != 0 ) {
+			$(this).scrollLeft(0);
+		}
+	});
+});
+
 })();
