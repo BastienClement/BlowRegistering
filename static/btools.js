@@ -592,8 +592,6 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	$scope.announce = function(which, preview) {
 		if(!preview && last_announce == which)
 			return ($scope.error = "Cette annonce vient d'être envoyée");
-		else
-			last_announce = which;
 	
 		var announce = false;
 		
@@ -608,10 +606,12 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 		}
 		
 		if(announce) {
-			if(preview)
+			if(preview) {
 				return "« " + announce.replace(/<[^>]+>/g, "") + " »"
-			else
+			} else {
+				last_announce = which;
 				return $scope.update("announce", announce);
+			}
 		} else {
 			if(preview) {
 				return "[ Cette annonce ne peux pas être envoyée ]"
