@@ -273,13 +273,13 @@
 				</div>
 			</div>
 			<div class="panel" ng-switch-when="event">
-				<div class="event-viewer" ng-class="{ note: getEventType() == 2 }" ng-controller="EventViewer" onmouseup="return $evScope.dragStop();" onmousemove="$evScope.dragUpdate(event);">
+				<div class="event-viewer {{ layout || '' }}" ng-class="{ note: getEventType() == 2 }" ng-controller="EventViewer" onmouseup="return $evScope.dragStop();" onmousemove="$evScope.dragUpdate(event);">
 					<div id="dragIndicator" ng-show="dragging_char.name" class="c{{ dragging_char.class }}">
 						<img ng-src="/img/{{ dragging_char.role || 'DPS' }}.png">
 						{{ dragging_char.name }}<span ng-show="!dragging_char.is_blow">*</span>
 					</div>
 					<div class="tabs" ng-show="getEventType() == 1">
-						<a class="button right" ng-class="{ selected: false }" ng-click="" title="Vue détaillée"><i class="icon-shareable"></i></a>
+						<a class="button right" ng-class="{ selected: layout == 'comp-maker' }" ng-click="toggleLayout('comp-maker')" title="Vue détaillée"><i class="icon-shareable"></i></a>
 						<a class="button tab" ng-class="{ selected: tab == 1 }" ng-click="tab = 1" title="Disponibles"><i class="icon-check"></i>&nbsp;&nbsp;{{ getAvailableCount() }}&nbsp;</a>
 						<a class="button tab" ng-class="{ selected: tab == 2 }" ng-click="tab = 2" title="Indisponibles"><i class="icon-block"></i>&nbsp;&nbsp;{{ getUnavailableCount() }}&nbsp;</a>
 						<a class="button tab" ng-class="{ selected: tab == 0 }" ng-click="tab = 0" title="Non registers"><i class="icon-hourglass"></i>&nbsp;&nbsp;{{ getNonregisterCount() }}&nbsp;</a>
@@ -294,6 +294,7 @@
 							<div class="note" ng-show="char.note" title="{{ char.note }}">
 								<i class="icon-feather"></i>
 							</div>
+							<div class="noteDetail">{{ char.note }}</div>
 						</div>
 						<div class="clearfix"></div>
 						<div ng-show="getTabChars().length == 0">

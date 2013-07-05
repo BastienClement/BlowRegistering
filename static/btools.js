@@ -661,6 +661,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	$scope.dragging_char = {};
 	$scope.dragging_slot = false;
 	$scope.data_available = false;
+	$scope.layout = false;
 	
 	$scope.initViewer = function() {
 		if($scope.initDone) {
@@ -691,6 +692,10 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		
 		ev_tag = false;
 		ev_cache = {};
+	};
+	
+	$scope.toggleLayout = function(layout) {
+		$scope.layout = ($scope.layout == layout) ? false : layout;
 	};
 	
 	$scope.getEvent = function() {
