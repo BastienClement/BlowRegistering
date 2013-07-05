@@ -165,7 +165,7 @@
 								</div>
 							</div>
 							<div class="events">
-								<div class="event" ng-repeat="event in data.events" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, canceled: event.state == 2 }" ng-click="setDisplay('event', event.id, { type: event.type, title: event.title })">
+								<div class="event" ng-repeat="event in data.events" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, locked: event.state == 1, canceled: event.state == 2 }" ng-click="setDisplay('event', event.id, { type: event.type, title: event.title })">
 									<a class="name">
 										<i ng-class="{ 'icon-flag': event.type == 2 }"></i>
 										{{ event.title }}
@@ -193,6 +193,18 @@
 				<div id="calendarCoverText">
 					&laquo;
 				</div>
+			</div>
+			<div class="box calendarLegend">
+				<table>
+					<tr>
+						<td>Non register</td>
+						<td class="accepted">Accepté</td>
+						<td class="declined">Refusé</td>
+						<td class="locked accepted">Fermé (Accepté)</td>
+						<td class="locked declined">Fermé (Refusé)</td>
+						<td class="canceled">Annulé</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 		<div id="sideBlock" ng-switch="display">
