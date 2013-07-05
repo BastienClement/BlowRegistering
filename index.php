@@ -3,12 +3,6 @@
 
 <?php if(is_blow_raider()): ?>
 	<div ng-app="BlowTools" ng-controller="Calendar">
-	<script type="text/ng-template" id="RaidUnitTpl">
-		<div class="raid-unit c{{ char.class }}">
-			<img ng-src="/img/{{ char.role }}.png">
-			{{ name }}<span ng-show="!char.is_blow">*</span>
-		</div>
-	</script>
 <?php else: ?>
 	<div style="height: 450px;">
 <?php endif; ?>
