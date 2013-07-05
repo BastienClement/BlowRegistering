@@ -1020,6 +1020,13 @@ BlowTools.directive("raidUnit", function() {
 	};
 });
 
+BlowTools.filter("markdown", function() {
+	var markdown = new Showdown.converter();
+	return function(input) {
+		return markdown.makeHtml(input);
+	};
+});
+
 if(HTML5Nav) {
 	window.addEventListener("popstate", function(e) {
 		$s.updateDisplay(e.state);

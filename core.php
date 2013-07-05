@@ -27,6 +27,7 @@ function is_user_authorized($owner) {
 function blow_header() {
 	$header_inject = array(
 		'<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>',
+		'<script type="text/javascript" src="/static/showdown.js"></script>',
 		'<script type="text/javascript" src="/static/btools.js"></script>',
 		'<script type="text/javascript" src="/static/prefixfree.js"></script>',
 		'<link rel="stylesheet" type="text/css" href="/static/fontello.css">',

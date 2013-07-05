@@ -778,9 +778,28 @@ a.button.in-line {
 	margin-bottom: 10px;
 }
 
-.event-viewer .eventnote .box {
-	white-space: pre-line;
+.event-viewer .eventnote div.box {
+	/*white-space: pre-wrap;*/
 	margin-bottom: 20px !important;
+	max-height: 450px;
+	overflow: auto;
+}
+
+.event-viewer .eventnote div.box::-webkit-scrollbar,
+.event-viewer .eventnote textarea::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+.event-viewer .eventnote div.box::-webkit-scrollbar-track,
+.event-viewer .eventnote textarea::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #444;
+}
+ 
+.event-viewer .eventnote div.box::-webkit-scrollbar-thumb,
+.event-viewer .eventnote textarea::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
+	background-color: #888;
 }
 
 .event-viewer .eventnote textarea {
@@ -788,11 +807,41 @@ a.button.in-line {
 	width: 442px;
 	min-width: 442px;
 	max-width: 442px;
-	height: 300px;
+	height: 450px;
 	color: #AAA;
 	font-family: 'Open Sans';
 	font-size: 12px;
 	margin-top: 0px !important;
+	margin-bottom: 20px !important;
+}
+
+.event-viewer .eventnote .box p {
+	white-space: pre-wrap;
+	margin: 0 0 10px;
+}
+
+.event-viewer .eventnote .box h1 {
+	font-size: 1.5em;
+	font-weight: 400;
+	margin: 0 0 10px;
+}
+
+.event-viewer .eventnote .box h2 {
+	font-size: 1.25em;
+	margin: 0 0 10px;
+}
+
+.event-viewer .eventnote .box ul {
+	margin-top: -10px;
+	padding-left: 25px;
+}
+
+.event-viewer .eventnote .box div > *:first-child {
+	margin-top: 0px;
+}
+
+.event-viewer .eventnote .box div > *:last-child {
+	margin-bottom: 0px;
 }
 
 .event-viewer .eventnote .button {

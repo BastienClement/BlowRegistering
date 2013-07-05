@@ -332,7 +332,9 @@
 								<a class="button icon" ng-click="setEventEditing(null)" ng-show="getEvent().editing == $bt.username"><i class="icon-floppy"></i> Enregistrer</a>
 							</div>
 							<h2><i class="icon-pencil"></i> Note de l'évenement</h2>
-							<div class="box" ng-show="getEvent().editing != $bt.username">{{ getEvent().event_note || "[ Aucune note rédigée ]" }}<em ng-show="getEvent().editing">
+							<div class="box" ng-show="getEvent().editing != $bt.username">
+								<div ng-bind-html-unsafe="(getEvent().event_note || '[ Aucune note rédigée ]') | markdown"></div>
+								<em ng-show="getEvent().editing">
 							
 							En cours d'édition par <strong>{{ getEvent().editing }}</strong>...</em></div>
 							<textarea class="box" ng-model="eventNoteText" ng-show="getEvent().editing == $bt.username"></textarea>
