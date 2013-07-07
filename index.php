@@ -20,7 +20,7 @@
 		<div id="calendarErrorMessage" class="message">
 			<div class="title">Une erreur est survenue</div>
 			<span>{{ error }}</span>
-			<a class="button" ng-click="error = undefined" ng-show="!errorFatal"><i class="icon-check"></i> OK</a>
+			<a class="button icon" ng-click="error = undefined" ng-show="!errorFatal"><i class="icon-check"></i> OK</a>
 			<div class="clearfix"></div>
 		</div>
 	</div>
@@ -28,7 +28,7 @@
 		<div id="calendarStandbyMessage" class="message">
 			<div class="title">Déconnexion temporaire</div>
 			<span>Il semblerait que vous soyez inactif depuis un moment, vous avez donc été déconnecté temporairement du serveur.</span>
-			<a class="button" ng-click="exitStandby()"><i class="icon-flash"></i> Reconnexion</a>
+			<a class="button icon" ng-click="exitStandby()"><i class="icon-flash"></i> Reconnexion</a>
 			<div class="clearfix"></div>
 		</div>
 	</div>
@@ -38,8 +38,8 @@
 			<span>
 				<input type="text" id="declineReasonInput" ng-model="declineReason">
 			</span>
-			<a class="button" ng-click="hideDeclineModal(declineReason); declineReason = ''"><i class="icon-floppy"></i> Enregistrer</a>
-			<a class="button" ng-click="hideDeclineModal()"><i class="icon-cancel"></i> Annuler</a>
+			<a class="button icon" ng-click="hideDeclineModal(declineReason); declineReason = ''"><i class="icon-floppy"></i> Enregistrer</a>
+			<a class="button icon" ng-click="hideDeclineModal()"><i class="icon-cancel"></i> Annuler</a>
 			<div class="clearfix"></div>
 		</div>
 	</div>
@@ -286,7 +286,6 @@
 					</div>
 					<div class="chars" ng-show="getEventType() == 1">
 						<div class="char" ng-repeat="char in getTabChars()" ng-class="{ used: isCharUsed(char.id) }" onmousedown="return $evScope.dragStart('{{ char.id }}', event);">
-							<!--<raid-unit charid="char.id"></raid-unit>-->
 							<div class="name c{{ char.class }}" title="{{ formatDate(char.time) }}">
 								<img ng-src="/img/{{ char.role }}.png">
 								{{ char.name }}<span ng-show="!char.is_blow">*</span>
@@ -323,27 +322,38 @@
 							<div class="title">Groupe {{ group }}</div>
 							<div class="slot c{{ getCharForSlot(group, slot).class }}" ng-class="{ 'self': getCharForSlot(group, slot).owner == $bt.chars[0].owner }" ng-repeat="slot in [1,2,3,4,5]" data-slotid="{{ computeSlotId(group, slot) }}">
 								<div ng-show="getCharForSlot(group, slot) && getCharForSlot(group, slot).id != dragging_char.id" onmousedown="return $evScope.dragStart('{{ getCharForSlot(group, slot).id }}', event, {{ group }}, {{ slot }});">
-									<img ng-src="/img/{{ getCharForSlot(group, slot).role || 'DPS' }}.png">
+									<img ng-src="/img/{{ getCharForSlot(group, slot).forced_role || getCharForSlot(group, slot).role || 'DPS' }}.png">
 									{{ getCharForSlot(group, slot).name }}<span ng-show="!getCharForSlot(group, slot).is_blow">*</span>
 									<div class="warning" ng-show="slotWarning(group, slot)" title="{{ slotWarning(group, slot) }}">
 										<i class="icon-attention"></i>
+									</div>
+									<div class="context-arrow">
+										<i class="icon-down-open"></i>
+									</div>
+									<div class="context">
+										<div class="context-body" onmousedown="event.stopPropagation(); return false;">
+											<div class="role-selector">
+												<img src="/img/TANK.png" ng-class="{ selected: getCharForSlot(group, slot).forced_role == 'TANK' }" ng-click="setForcedRole(group, slot, 'TANK')">
+												<img src="/img/HEALING.png" ng-class="{ selected: getCharForSlot(group, slot).forced_role == 'HEALING' }" ng-click="setForcedRole(group, slot, 'HEALING')">
+												<img src="/img/DPS.png" ng-class="{ selected: getCharForSlot(group, slot).forced_role == 'DPS' }" ng-click="setForcedRole(group, slot, 'DPS')">
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="raidnote">
-						<div class="eventnote" ng-show="getEvent().event_note || (getEvent().editable && !getEvent().state)">
-							<div ng-show="!getEvent().state">
+						<div class="eventnote" ng-show="getEvent().event_note || getEvent().editable">
+							<div ng-show="getEvent().editable">
 								<a class="button icon" ng-click="setEventEditing($event.ctrlKey)" ng-show="getEvent().editing != $bt.username"><i class="icon-pencil"></i> Editer la note</a>
 								<a class="button icon" ng-click="setEventEditing(null)" ng-show="getEvent().editing == $bt.username"><i class="icon-floppy"></i> Enregistrer</a>
 							</div>
 							<h2><i class="icon-pencil"></i> Note de l'évenement</h2>
-							<div class="box" ng-show="getEvent().editing != $bt.username">
+							<div class="box" ng-show="!getEvent().editable || getEvent().editing != $bt.username">
+								<em ng-show="getEvent().editing">[ En cours d'édition par <strong>{{ getEvent().editing }}</strong>... ]<br><br></em>
 								<div ng-bind-html-unsafe="(getEvent().event_note || '[ Aucune note rédigée ]') | markdown"></div>
-								<em ng-show="getEvent().editing">
-							
-							En cours d'édition par <strong>{{ getEvent().editing }}</strong>...</em></div>
+							</div>
 							<textarea class="box" ng-model="eventNoteText" ng-show="getEvent().editing == $bt.username"></textarea>
 						</div>
 						<h2><i class="icon-megaphone"></i> Informations de l'événement</h2>

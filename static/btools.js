@@ -222,7 +222,7 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 		}
 		
 		if(!call) {
-			if(++standby_counter > 35) {
+			if(++standby_counter > 65) {
 				$scope.standby = true;
 				return $exec();
 			}
@@ -829,7 +829,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	$scope.dragStart = function(id, e, group, slot) {
 		var event = $scope.getEvent();
 		
-		if(!event.editable || event.state) return false;
+		if(!event.editable) return false;
 		
 		var c = false;
 		event.answers.some(function(a) {
@@ -949,7 +949,19 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 			}
 		}
 		return false;
-	}
+	};
+	
+	$scope.setForcedRole = function(group, slot, role) {
+		var char = $scope.getCharForSlot(group, slot);
+		var slot = $scope.computeSlotId(group, slot);
+		
+		$scope.update("set-raidcomp-role", {
+			event: $bt.event.id,
+			comp: $scope.current_comp,
+			slot: slot,
+			role: (char.forced_role == role) ? 'NULL' : role
+		});
+	};
 	
 	$scope.setEventState = function(state) {
 		$scope.update('set-event-state', { event: $scope.getEvent().id, state: state });

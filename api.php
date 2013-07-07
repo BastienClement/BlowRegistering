@@ -316,6 +316,7 @@ switch($call):
 		break;
 	
 	case "set-raidcomp":
+	case "set-raidcomp-role":
 	case "unset-raidcomp":
 	case "set-event-state":
 	case "set-event-editing":
@@ -323,7 +324,7 @@ switch($call):
 		$db->sql_query("SELECT owner, state FROM bt_events WHERE id = $eventid LIMIT 1");
 		$event = $db->sql_fetchrow();
 		
-		if(!$event || ($event["state"] && $call != "set-event-state") || !is_user_authorized($event["owner"])):
+		if(!$event || !is_user_authorized($event["owner"])):
 			set_error("Vous n'êtes pas autorisé à effectuer cette action.");
 			break;
 		endif;
@@ -331,6 +332,7 @@ switch($call):
 		switch($call):
 			case "set-raidcomp":
 			case "unset-raidcomp":
+			case "set-raidcomp-role":
 				$slot = (int) $args["slot"];
 				if($slot < 1 || $slot > 40):
 					set_error("Slot de raid-comp non valide.");
@@ -351,6 +353,20 @@ switch($call):
 						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp AND `char` IN (SELECT `id` as `char` FROM bt_chars WHERE `owner` = (SELECT `owner` FROM bt_chars WHERE `id` = $char LIMIT 1)) LIMIT 1");
 						$db->sql_query("INSERT INTO bt_raidcomps (`event`, `comp`, `slot`, `char`) VALUES ($eventid, $comp, $slot, $char) ON DUPLICATE KEY UPDATE `char` = VALUES(`char`)");
 						$db->_sql_transaction("commit");
+						break;
+					
+					case "set-raidcomp-role":
+						$role = $args["role"];
+						if(!in_array($role, ["HEALING", "TANK", "DPS", "NULL"])):
+							set_error("Rôle invalide.");
+							break;
+						endif;
+						
+						if($role != "NULL"):
+							$role = "'$role'";
+						endif;
+						
+						$db->sql_query("UPDATE bt_raidcomps SET forced_role = $role WHERE `event` = $eventid AND `comp` = $comp AND `slot` = $slot LIMIT 1");
 						break;
 					
 					case "unset-raidcomp":
@@ -407,7 +423,7 @@ if($d == "event"):
 	else:	
 		$event["editable"] = is_user_authorized($event["owner"]);
 		
-		if(!$event["editable"]):
+		if(!$event["editable"] && !$event["state"]):
 			$event["event_note"] = null;
 		endif;
 		
@@ -419,7 +435,7 @@ if($d == "event"):
 		
 		$event["raidcomp"] = [];
 		if($event["state"] || $event["editable"]):
-			$db->sql_query("SELECT rc.comp, rc.slot, c.id, c.name, c.server, c.class, c.role, c.owner, c.is_blow FROM bt_raidcomps AS rc, bt_chars AS c WHERE c.id = rc.char AND rc.event = $id ORDER BY rc.slot ASC");
+			$db->sql_query("SELECT rc.comp, rc.slot, rc.forced_role, c.id, c.name, c.server, c.class, c.role, c.owner, c.is_blow FROM bt_raidcomps AS rc, bt_chars AS c WHERE c.id = rc.char AND rc.event = $id ORDER BY rc.slot ASC");
 			while($row = $db->sql_fetchrow()):
 				$row["comp"] = (int) $row["comp"];
 				if(!isset($event["raidcomp"][$row["comp"]])) $event["raidcomp"][$row["comp"]] = [];
