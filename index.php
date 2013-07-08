@@ -378,8 +378,8 @@
 								<td>
 									<div ng-show="getEvent().editable && getEvent().type == 1">
 										<a class="button tab" ng-click="setEventState(0)" ng-class="{ selected: !getEvent().state }">Ouvert</a>
-										<a class="button tab" ng-click="setEventState(1) " ng-class="{ selected: getEvent().state == 1 }">Fermé</a>
-										<a class="button tab" ng-click="setEventState(2) " ng-class="{ selected: getEvent().state == 2 }">Annulé</a>
+										<a class="button tab" ng-click="setEventState(1)" ng-class="{ selected: getEvent().state == 1 }">Fermé</a>
+										<a class="button tab" ng-click="setEventState(2)" ng-class="{ selected: getEvent().state == 2 }">Annulé</a>
 									</div>
 									<div ng-show="!getEvent().editable && getEvent().type == 1">
 										<div ng-switch="getEvent().state">

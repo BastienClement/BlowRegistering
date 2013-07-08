@@ -351,7 +351,7 @@ switch($call):
 						
 						$db->_sql_transaction("begin");
 						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp AND `char` IN (SELECT `id` as `char` FROM bt_chars WHERE `owner` = (SELECT `owner` FROM bt_chars WHERE `id` = $char LIMIT 1)) LIMIT 1");
-						$db->sql_query("INSERT INTO bt_raidcomps (`event`, `comp`, `slot`, `char`) VALUES ($eventid, $comp, $slot, $char) ON DUPLICATE KEY UPDATE `char` = VALUES(`char`)");
+						$db->sql_query("INSERT INTO bt_raidcomps (`event`, `comp`, `slot`, `char`) VALUES ($eventid, $comp, $slot, $char) ON DUPLICATE KEY UPDATE `char` = VALUES(`char`), forced_role = NULL");
 						$db->_sql_transaction("commit");
 						break;
 					

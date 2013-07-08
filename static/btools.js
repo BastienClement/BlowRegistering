@@ -873,7 +873,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		if(slotHover) {
 			var destSlot = slotHover.data("slotid");
 			
-			if(!sourceSlot|| sourceSlot != destSlot) {
+			if(!sourceSlot || sourceSlot != destSlot) {
 				$scope.update("set-raidcomp", {
 					event: $bt.event.id,
 					comp: $scope.current_comp,
