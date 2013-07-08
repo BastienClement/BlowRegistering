@@ -1052,8 +1052,10 @@ BlowTools.filter("markdown", function() {
 
 if(HTML5Nav) {
 	window.addEventListener("popstate", function(e) {
-		$s.updateDisplay(e.state);
-		$exec();
+		if($s) {
+			$s.updateDisplay(e.state);
+			$exec();
+		}
 	});
 }
 
