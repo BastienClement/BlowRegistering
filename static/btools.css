@@ -848,27 +848,22 @@ a.button.in-line {
 	top: 17px;
 	left: -1px;
 	width: 112px;
-	transform: scaleY(1) scaleX(1);
 	transform-origin: 0px 0px;
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity ease .3s, visibility ease .3s;
 	z-index: 100;
 }
 
 .event-viewer .raidcomp .slot .context-body {
 	border: 1px solid rgb(51, 51, 51);
 	background: #262626;
-	/*border: 1px solid rgb(85, 85, 85);*/
-	/*border-radius: 3px;*/
-	/*background-color: rgb(46, 46, 46);*/
 	box-shadow: 0px 0px 5px 1px rgba(17, 17, 17, 0.75);
 	cursor: default;
 }
 
 .event-viewer .raidcomp .slot:hover .context {
+	transition: opacity ease .3s, visibility ease .3s;
 	transition-delay: .5s;
-	transform: scaleY(1) scaleX(1);
 	visibility: visible;
 	opacity: 1;
 }
@@ -878,7 +873,6 @@ a.button.in-line {
 	margin: 0px;
 	opacity: 0.4;
 	cursor: pointer;
-	/*transition: opacity ease .3s;*/
 }
 
 .event-viewer .raidcomp .context .reroll {
