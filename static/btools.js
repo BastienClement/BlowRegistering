@@ -20,14 +20,14 @@ var removeDiacritics = (function() {
 		    i = chars.length - 1,
 		    alter = false,
 		    ch;
-		for (; i >= 0; i--) {
+		for(; i >= 0; i--) {
 			ch = chars[i];
-			if (diacritics.hasOwnProperty(ch)) {
+			if(diacritics.hasOwnProperty(ch)) {
 				chars[i] =  diacritics[ch];
 				alter = true;
 			}
 		}
-		if (alter) {
+		if(alter) {
 			str = chars.join('');
 		}
 		return str;
@@ -38,18 +38,17 @@ var HTML5Nav = !!(window.history && window.history.pushState);
 
 var Base64 = {
 	// private property
-	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+$=",
+	_keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+$=",
 
 	// public method for encoding
-	encode : function (input) {
+	encode: function(input) {
 		var output = "";
 		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
 		var i = 0;
 
 		input = Base64._utf8_encode(input);
 
-		while (i < input.length) {
-
+		while(i < input.length) {
 			chr1 = input.charCodeAt(i++);
 			chr2 = input.charCodeAt(i++);
 			chr3 = input.charCodeAt(i++);
@@ -59,23 +58,22 @@ var Base64 = {
 			enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
 			enc4 = chr3 & 63;
 
-			if (isNaN(chr2)) {
+			if(isNaN(chr2)) {
 				enc3 = enc4 = 64;
-			} else if (isNaN(chr3)) {
+			} else if(isNaN(chr3)) {
 				enc4 = 64;
 			}
 
 			output = output +
 			this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
 			this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
-
 		}
 
 		return output;
 	},
 
 	// public method for decoding
-	decode : function (input) {
+	decode: function(input) {
 		var output = "";
 		var chr1, chr2, chr3;
 		var enc1, enc2, enc3, enc4;
@@ -83,8 +81,7 @@ var Base64 = {
 
 		input = input.replace(/[^A-Za-z0-9\+\$\=]/g, "");
 
-		while (i < input.length) {
-
+		while(i < input.length) {
 			enc1 = this._keyStr.indexOf(input.charAt(i++));
 			enc2 = this._keyStr.indexOf(input.charAt(i++));
 			enc3 = this._keyStr.indexOf(input.charAt(i++));
@@ -96,13 +93,13 @@ var Base64 = {
 
 			output = output + String.fromCharCode(chr1);
 
-			if (enc3 != 64) {
+			if(enc3 != 64) {
 				output = output + String.fromCharCode(chr2);
 			}
-			if (enc4 != 64) {
+			
+			if(enc4 != 64) {
 				output = output + String.fromCharCode(chr3);
 			}
-
 		}
 
 		output = Base64._utf8_decode(output);
@@ -116,23 +113,19 @@ var Base64 = {
 		string = string.replace(/\r\n/g,"\n");
 		var utftext = "";
 
-		for (var n = 0; n < string.length; n++) {
-
+		for(var n = 0; n < string.length; n++) {
 			var c = string.charCodeAt(n);
 
-			if (c < 128) {
+			if(c < 128) {
 				utftext += String.fromCharCode(c);
-			}
-			else if((c > 127) && (c < 2048)) {
+			} else if((c > 127) && (c < 2048)) {
 				utftext += String.fromCharCode((c >> 6) | 192);
 				utftext += String.fromCharCode((c & 63) | 128);
-			}
-			else {
+			} else {
 				utftext += String.fromCharCode((c >> 12) | 224);
 				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
 				utftext += String.fromCharCode((c & 63) | 128);
 			}
-
 		}
 
 		return utftext;
@@ -144,26 +137,22 @@ var Base64 = {
 		var i = 0;
 		var c = c1 = c2 = 0;
 
-		while ( i < utftext.length ) {
-
+		while(i < utftext.length) {
 			c = utftext.charCodeAt(i);
 
-			if (c < 128) {
+			if(c < 128) {
 				string += String.fromCharCode(c);
 				i++;
-			}
-			else if((c > 191) && (c < 224)) {
+			} else if((c > 191) && (c < 224)) {
 				c2 = utftext.charCodeAt(i+1);
 				string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
 				i += 2;
-			}
-			else {
+			} else {
 				c2 = utftext.charCodeAt(i+1);
 				c3 = utftext.charCodeAt(i+2);
 				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
 				i += 3;
 			}
-
 		}
 
 		return string;
@@ -208,8 +197,9 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	$scope.showLoader = false;
 	$scope.update = function(call, call_args, ignore_lock) {
 		if(dead || ((lock || $bt.tag === false) && !ignore_lock)) {
-			if(call)
+			if(call) {
 				queue.push({ call: call, call_args: call_args });
+			}
 			return;
 		}
 		
@@ -421,7 +411,7 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	};
 	
 	var add_zero = function(i) {
-		return (i < 10) ? "0" + i: "" + i;
+		return (i < 10) ? "0" + i : "" + i;
 	};
 	
 	$scope.getCalendarData = function() {
@@ -498,9 +488,13 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 		});
 		
 		chars.sort(function(a, b) {
-			if(a.main != b.main) return a.main ? -1 : 1;
-			else if(a.active != b.active) return a.active ? -1 : 1;
-			else return a.name.localeCompare(b.name);
+			if(a.main != b.main) {
+				return a.main ? -1 : 1;
+			} else if(a.active != b.active) {
+				return a.active ? -1 : 1;
+			} else {
+				return a.name.localeCompare(b.name);
+			}
 		});
 		
 		return chars;
@@ -523,9 +517,6 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	// --- Paging stuff --------------------------------------------------------
 	
 	$scope.display = "calendar";
-	
-	//$scope.display = "event";
-	//$scope.arg = { id: 3, title: "Mercredi 5", type: 1 };
 	
 	var allowedDisplays = [
 		"calendar",
@@ -561,10 +552,11 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 		if(HTML5Nav) {
 			var url = (display == "calendar") ? "/" : "/" + display;
 			if(arg) {
-				if(typeof arg == "number")
+				if(typeof arg == "number") {
 					url += "/" + arg;
-				else
+				} else {
 					url += "/$" + Base64.encode(JSON.stringify(arg));
+				}
 			}
 			history.pushState(opts, null, url);
 		}
@@ -590,9 +582,10 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	var last_announce;
 	
 	$scope.announce = function(which, preview) {
-		if(!preview && last_announce == which)
+		if(!preview && last_announce == which) {
 			return ($scope.error = "Cette annonce vient d'être envoyée");
-	
+		}
+		
 		var announce = false;
 		
 		switch(which) {
@@ -600,8 +593,9 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 			case "event-registering":
 			case "event-comp-available":
 			case "event-off":
-				if($evScope)
+				if($evScope) {
 					announce = $evScope.announce(which, preview);
+				}
 				break;
 		}
 		
@@ -724,9 +718,10 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 			}
 		}
 		
-		if(!ev_cache["answers"]) ev_cache["answers"] = [];
-		if(!ev_cache["rerolls"]) ev_cache["rerolls"] = {};
+		if(!ev_cache["answers"])  ev_cache["answers"]  = [];
+		if(!ev_cache["rerolls"])  ev_cache["rerolls"]  = {};
 		if(!ev_cache["raidcomp"]) ev_cache["raidcomp"] = {};
+		
 		return ev_cache;
 	};
 	
@@ -778,7 +773,9 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	$scope.getCompCount = function() {
 		var max = Math.max(max_comp, $scope.current_comp);
 		for(var comp in $scope.getEvent().raidcomp) {
-			if(comp > max) max = comp;
+			if(comp > max) {
+				max = comp;
+			}
 		}
 		
 		var comps = [];
@@ -938,7 +935,11 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		var comp = ev.raidcomp[$scope.current_comp];
 		var slot = $scope.computeSlotId(group, slot);
 		var c    = (comp && comp[slot] && ev.raidcomp_roster[comp[slot].id]) || false;
-		if(c && comp[slot].role) c.role = comp[slot].role;
+		
+		if(c && comp[slot].role) {
+			c.role = comp[slot].role;
+		}
+		
 		return c;
 	};
 	
@@ -1001,14 +1002,17 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	};
 	
 	$scope.announce = function(which, preview) {
-		if(!$scope.data_available)
+		if(!$scope.data_available) {
 			return false;
+		}
 			
 		var e = $scope.getEvent();
 		var title = "<b>" + e.title + "</b> à <b>" + e.date.match(/\d{2}:\d{2}/)[0] + "</b>";
 		
-		if(e.state && which != "event-new") return false;
-			
+		if(e.state && which != "event-new") {
+			return false;
+		}
+		
 		switch(which) {
 			case "event-new":
 				return "De nouveaux événements sont disponibles sur le calendar. Pensez à vous register.";
@@ -1034,11 +1038,17 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				return strings[0] + " de registering pour " + title + ": " + nrString + ". Merci de " + strings[1] + " au plus vite.";
 				
 			case "event-comp-available":
-				if(!preview) $scope.update("set-event-state", { event: e.id, state: 1 });
+				if(!preview) {
+					$scope.update("set-event-state", { event: e.id, state: 1 });
+				}
+				
 				return "La compo pour l'événement " + title + " est maintenant disponible.";
 			
 			case "event-off":
-				if(!preview) $scope.update("set-event-state", { event: e.id, state: 2 });
+				if(!preview) {
+					$scope.update("set-event-state", { event: e.id, state: 2 });
+				}
+				
 				return "L'événement " + title + " est annulé. Pensez à vous register pour les prochains événements.";
 		}
 	};
