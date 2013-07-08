@@ -212,10 +212,10 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 		}
 		
 		if(!call) {
-			if(++standby_counter > 65) {
+			/*if(++standby_counter > 65) {
 				$scope.standby = true;
 				return $exec();
-			}
+			}*/
 		} else {
 			standby_counter = 0;
 		}
@@ -278,7 +278,7 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 				
 				if(!last_tag || last_tag != $bt.tag) {
 					last_tag = $bt.tag;
-					update_interval = 6000;
+					update_interval = 4000;
 					standby_counter = 0;
 					$exec();
 				} else {
