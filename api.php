@@ -428,18 +428,29 @@ if($d == "event"):
 		endif;
 		
 		$event["answers"] = [];
-		$db->sql_query("SELECT u.group_id, a.answer, a.time, a.note, c.id, c.name, c.server, c.class, c.role, c.owner, c.is_blow FROM phpbb_users AS u LEFT JOIN bt_answers AS a ON user_id = user AND event = $id JOIN bt_chars AS c ON c.owner = user_id AND main = 1 WHERE group_id IN (8, 9, 10, 11) ORDER BY c.class ASC, c.name ASC");
+		$db->sql_query("SELECT u.group_id, a.answer, a.time, a.note, c.id, c.name, c.server, c.class, c.role, c.owner FROM phpbb_users AS u LEFT JOIN bt_answers AS a ON user_id = user AND event = $id JOIN bt_chars AS c ON c.owner = user_id AND main = 1 WHERE group_id IN (8, 9, 10, 11) ORDER BY c.class ASC, c.name ASC");
 		while($row = $db->sql_fetchrow()):
 			$event["answers"][] = cast_event_answer($row);
 		endwhile;
 		
-		$event["raidcomp"] = [];
+		$event["raidcomp_roster"] = [];
+		$event["raidcomp"]        = [];
+		$event["rerolls"]         = [];
+		
 		if($event["state"] || $event["editable"]):
-			$db->sql_query("SELECT rc.comp, rc.slot, rc.forced_role, c.id, c.name, c.server, c.class, c.role, c.owner, c.is_blow FROM bt_raidcomps AS rc, bt_chars AS c WHERE c.id = rc.char AND rc.event = $id ORDER BY rc.slot ASC");
+			$db->sql_query("SELECT c.id, c.owner, c.name, c.server, c.class, c.role FROM bt_chars AS c WHERE c.owner IN (SELECT DISTINCT c.owner FROM bt_chars AS c WHERE id IN (SELECT DISTINCT rc.char FROM bt_raidcomps AS rc WHERE event = $id)) AND active = 1");
+			while($row = $db->sql_fetchrow()):
+				$row["owner"] = (int) $row["owner"];
+				if(!isset($event["rerolls"][$row["owner"]])) $event["rerolls"][$row["owner"]] = [];
+				$event["raidcomp_roster"][$row["id"]] = cast_event_raidcomp($row);
+				$event["rerolls"][$row["owner"]][] = $row["id"];
+			endwhile;
+			
+			$db->sql_query("SELECT rc.comp, rc.slot, rc.forced_role, rc.char FROM bt_raidcomps AS rc WHERE rc.event = $id ORDER BY rc.slot ASC");
 			while($row = $db->sql_fetchrow()):
 				$row["comp"] = (int) $row["comp"];
 				if(!isset($event["raidcomp"][$row["comp"]])) $event["raidcomp"][$row["comp"]] = [];
-				$event["raidcomp"][$row["comp"]][$row["slot"]] = cast_event_raidcomp($row);
+				$event["raidcomp"][$row["comp"]][$row["slot"]] = ["id" => $row["char"], "role" => $row["forced_role"]];
 			endwhile;
 		endif;
 		

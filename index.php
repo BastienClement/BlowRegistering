@@ -276,7 +276,7 @@
 				<div class="event-viewer {{ layout || '' }}" ng-class="{ note: getEventType() == 2 }" ng-controller="EventViewer" onmouseup="return $evScope.dragStop();" onmousemove="$evScope.dragUpdate(event);">
 					<div id="dragIndicator" ng-show="dragging_char.name" class="c{{ dragging_char.class }}">
 						<img ng-src="/img/{{ dragging_char.role || 'DPS' }}.png">
-						{{ dragging_char.name }}<span ng-show="!dragging_char.is_blow">*</span>
+						{{ dragging_char.name }}
 					</div>
 					<div class="tabs" ng-show="getEventType() == 1">
 						<a class="button right" ng-class="{ selected: layout == 'comp-maker' }" ng-click="toggleLayout('comp-maker')" title="Vue détaillée"><i class="icon-shareable"></i></a>
@@ -288,7 +288,7 @@
 						<div class="char" ng-repeat="char in getTabChars()" ng-class="{ used: isCharUsed(char.id) }" onmousedown="return $evScope.dragStart('{{ char.id }}', event);">
 							<div class="name c{{ char.class }}" title="{{ formatDate(char.time) }}">
 								<img ng-src="/img/{{ char.role }}.png">
-								{{ char.name }}<span ng-show="!char.is_blow">*</span>
+								{{ char.name }}
 							</div>
 							<div class="note" ng-show="char.note" title="{{ char.note }}">
 								<i class="icon-feather"></i>
@@ -323,7 +323,7 @@
 							<div class="slot c{{ getCharForSlot(group, slot).class }}" ng-class="{ 'self': getCharForSlot(group, slot).owner == $bt.chars[0].owner }" ng-repeat="slot in [1,2,3,4,5]" data-slotid="{{ computeSlotId(group, slot) }}">
 								<div ng-show="getCharForSlot(group, slot) && getCharForSlot(group, slot).id != dragging_char.id" onmousedown="return $evScope.dragStart('{{ getCharForSlot(group, slot).id }}', event, {{ group }}, {{ slot }});">
 									<img ng-src="/img/{{ getCharForSlot(group, slot).forced_role || getCharForSlot(group, slot).role || 'DPS' }}.png">
-									{{ getCharForSlot(group, slot).name }}<span ng-show="!getCharForSlot(group, slot).is_blow">*</span>
+									{{ getCharForSlot(group, slot).name }}
 									<div class="warning" ng-show="slotWarning(group, slot)" title="{{ slotWarning(group, slot) }}">
 										<i class="icon-attention"></i>
 									</div>
@@ -336,6 +336,10 @@
 												<img src="/img/TANK.png" ng-class="{ selected: getCharForSlot(group, slot).forced_role == 'TANK' }" ng-click="setForcedRole(group, slot, 'TANK')">
 												<img src="/img/HEALING.png" ng-class="{ selected: getCharForSlot(group, slot).forced_role == 'HEALING' }" ng-click="setForcedRole(group, slot, 'HEALING')">
 												<img src="/img/DPS.png" ng-class="{ selected: getCharForSlot(group, slot).forced_role == 'DPS' }" ng-click="setForcedRole(group, slot, 'DPS')">
+											</div>
+											<div class="reroll c{{ reroll.class }}" ng-click="update('set-raidcomp', { event: getEvent().id, comp: current_comp, slot: computeSlotId(group, slot), char: reroll.id })" ng-repeat="reroll in getRerolls(group, slot)">
+												<img ng-src="/img/{{ reroll.role || 'DPS' }}.png">
+												{{ reroll.name }}
 											</div>
 										</div>
 									</div>

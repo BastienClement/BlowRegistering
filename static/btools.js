@@ -725,6 +725,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		}
 		
 		if(!ev_cache["answers"]) ev_cache["answers"] = [];
+		if(!ev_cache["rerolls"]) ev_cache["rerolls"] = {};
 		if(!ev_cache["raidcomp"]) ev_cache["raidcomp"] = {};
 		return ev_cache;
 	};
@@ -793,10 +794,11 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	};
 	
 	$scope.compHasSelf = function(i) {
-		var comp = $scope.getEvent().raidcomp[i];
+		var ev = $scope.getEvent();
+		var comp = ev.raidcomp[i];
 		if(comp) {
 			for(var slot in comp) {
-				if(comp[slot].owner == $bt.chars[0].owner) {
+				if(ev.raidcomp_roster[comp[slot].id].owner == $bt.chars[0].owner) {
 					return true;
 				}
 			}
@@ -829,21 +831,30 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	$scope.dragStart = function(id, e, group, slot) {
 		var event = $scope.getEvent();
 		
-		if(!event.editable) return false;
-		
-		var c = false;
-		event.answers.some(function(a) {
-			if(a.id == id) {
-				c = a;
-				return true;
-			}
+		if(!event.editable) {
 			return false;
-		});
+		}
 		
-		if(!c) return false;
-	
-		if(group && slot)
+		var c = event.raidcomp_roster[id];
+		
+		if(!c) {
+			event.answers.some(function(a) {
+				if(a.id == id) {
+					c = a;
+					return true;
+				}
+				return false;
+			});
+		}
+		
+		if(!c) {
+			return false;
+		}
+		
+		if(group && slot) {
 			$scope.dragging_slot = $scope.computeSlotId(group, slot);
+		}
+		
 		$scope.dragging_char = c;
 		
 		offset = $(".event-viewer").offset();
@@ -923,9 +934,12 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	};
 	
 	$scope.getCharForSlot = function(group, slot) {
-		var comp = $scope.getEvent().raidcomp[$scope.current_comp];
+		var ev   = $scope.getEvent();
+		var comp = ev.raidcomp[$scope.current_comp];
 		var slot = $scope.computeSlotId(group, slot);
-		return (comp && comp[slot]) || false;
+		var c    = (comp && comp[slot] && ev.raidcomp_roster[comp[slot].id]) || false;
+		if(c && comp[slot].role) c.role = comp[slot].role;
+		return c;
 	};
 	
 	$scope.slotWarning = function(group, slot) {
@@ -949,6 +963,13 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 			}
 		}
 		return false;
+	};
+	
+	$scope.getRerolls = function(group, slot) {
+		var ev      = $scope.getEvent();
+		var char    = $scope.getCharForSlot(group, slot);
+		var rerolls = ev.rerolls[char.owner];
+		return rerolls ? rerolls.map(function(r) { return ev.raidcomp_roster[r]; }).filter(function(r) { return r.id != char.id; }) : {};
 	};
 	
 	$scope.setForcedRole = function(group, slot, role) {
