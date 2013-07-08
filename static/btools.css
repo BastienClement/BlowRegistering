@@ -1,9 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
-/*#raids * {
-	-webkit-backface-visibility: hidden;
-}*/
-
 /* Ninja'ed from WoWHead */
 .c1,.c1 a{color:#C69B6D!important;}
 .c2,.c2 a{color:#F48CBA!important;}
@@ -759,10 +755,6 @@ a.button.in-line {
 	position: absolute;
 	top: 3px;
 	left: 95px;
-	/*width: 300px;*/
-	/*overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;*/
 }
 
 .event-viewer .registering {
@@ -912,7 +904,6 @@ a.button.in-line {
 }
 
 .event-viewer .eventnote div.box {
-	/*white-space: pre-wrap;*/
 	margin-bottom: 20px !important;
 	max-height: 450px;
 	overflow: auto;
