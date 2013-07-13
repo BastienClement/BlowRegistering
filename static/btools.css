@@ -908,6 +908,7 @@ a.button.in-line {
 	margin-bottom: 20px !important;
 	max-height: 450px;
 	overflow: auto;
+	word-wrap: break-word;
 }
 
 .event-viewer .eventnote div.box::-webkit-scrollbar,
