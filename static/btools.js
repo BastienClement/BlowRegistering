@@ -755,8 +755,16 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		max_comp++;
 	};
 	
+	$scope.emptyComp = function() {
+		$scope.update("empty-raidcomp", {
+			event: $bt.event.id,
+			comp: $scope.current_comp,
+			slot: 1  // Crappy API design!
+		});
+	};
+	
 	$scope.canAddComp = function() {
-		return max_comp < 3;
+		return max_comp < 2;
 	};
 	
 	$scope.getCompCount = function() {

@@ -280,9 +280,9 @@
 					</div>
 					<div class="tabs" ng-show="getEventType() == 1">
 						<a class="button right" ng-class="{ selected: layout == 'comp-maker' }" ng-click="toggleLayout('comp-maker')" title="Vue détaillée"><i class="icon-shareable"></i></a>
-						<a class="button tab" ng-class="{ selected: tab == 1 }" ng-click="tab = 1" title="Disponibles"><i class="icon-check"></i>&nbsp;&nbsp;{{ getAvailableCount() }}&nbsp;</a>
-						<a class="button tab" ng-class="{ selected: tab == 2 }" ng-click="tab = 2" title="Indisponibles"><i class="icon-block"></i>&nbsp;&nbsp;{{ getUnavailableCount() }}&nbsp;</a>
-						<a class="button tab" ng-class="{ selected: tab == 0 }" ng-click="tab = 0" title="Non registers"><i class="icon-hourglass"></i>&nbsp;&nbsp;{{ getNonregisterCount() }}&nbsp;</a>
+						<a class="button tab icon" ng-class="{ selected: tab == 1 }" ng-click="tab = 1" title="Disponibles"><i class="icon-check"></i>&nbsp;&nbsp;{{ getAvailableCount() }}&nbsp;</a>
+						<a class="button tab icon" ng-class="{ selected: tab == 2 }" ng-click="tab = 2" title="Indisponibles"><i class="icon-block"></i>&nbsp;&nbsp;{{ getUnavailableCount() }}&nbsp;</a>
+						<a class="button tab icon" ng-class="{ selected: tab == 0 }" ng-click="tab = 0" title="Non registers"><i class="icon-hourglass"></i>&nbsp;&nbsp;{{ getNonregisterCount() }}&nbsp;</a>
 					</div>
 					<div class="chars" ng-show="getEventType() == 1">
 						<div class="char" ng-repeat="char in getTabChars()" ng-class="{ used: isCharUsed(char.id) }" onmousedown="return $evScope.dragStart('{{ char.id }}', event);">
@@ -314,7 +314,8 @@
 					<div class="raidcomp" ng-show="getEventType() == 1">
 						<div class="actions">
 							<div class="right" ng-show="getEvent().editable">
-								<a class="button icon" ng-click="addComp()" ng-show="canAddComp()"><i class="icon-plus"></i></a>
+								<a class="button" ng-click="emptyComp()" title="Supprimer la compo actuelle"><i class="icon-trash"></i></a>
+								<a class="button" ng-click="addComp()" ng-show="canAddComp()"><i class="icon-plus"></i></a>
 							</div>
 							<a class="button tab" ng-click="setComp(i)" ng-class="{ selected: i == current_comp, self: compHasSelf(i) }" ng-repeat="i in getCompCount()">Raid {{ i + 1 }}</a>
 						</div>

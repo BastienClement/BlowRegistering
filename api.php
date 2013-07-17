@@ -318,6 +318,7 @@ switch($call):
 	case "set-raidcomp":
 	case "set-raidcomp-role":
 	case "unset-raidcomp":
+	case "empty-raidcomp":
 	case "set-event-state":
 	case "set-event-editing":
 		$eventid = (int) $args["event"];
@@ -332,7 +333,8 @@ switch($call):
 		switch($call):
 			case "set-raidcomp":
 			case "unset-raidcomp":
-			case "set-raidcomp-role":
+			case "set-raidcomp-role":		
+			case "empty-raidcomp":
 				$slot = (int) $args["slot"];
 				if($slot < 1 || $slot > 40):
 					set_error("Slot de raid-comp non valide.");
@@ -371,6 +373,11 @@ switch($call):
 					
 					case "unset-raidcomp":
 						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp AND `slot` = $slot LIMIT 1");
+						break;
+					
+					
+					case "empty-raidcomp":
+						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp LIMIT 40");
 						break;
 				endswitch;
 				break;
