@@ -31,15 +31,13 @@ function blow_header() {
 		'<script type="text/javascript" src="/static/btools.js"></script>',
 		'<script type="text/javascript" src="/static/prefixfree.js"></script>',
 		'<link rel="stylesheet" type="text/css" href="/static/fontello.css">',
-		'<link rel="stylesheet" type="text/css" href="/static/btools.css">'
+		'<link rel="stylesheet" data-prefix="1" type="text/css" href="/static/btools.css">'
 	);
 	
 	ob_start();
 	get_header();
 	$head = ob_get_contents();
 	ob_end_clean();
-	
-	$head = str_replace("<link", "<link data-noprefix='1'", $head);
 	
 	echo str_replace("</head>", implode("\n", $header_inject)."\n</head>", $head);
 }
