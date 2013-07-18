@@ -66,6 +66,7 @@
 		<div id="globalActionsLeft">
 			<div class="slidable" ng-class="{ slided: display != 'calendar' }">
 				<a ng-click="error = 'Le module d\'absences n\'est pas encore disponible.'"><i class="icon-eye"></i> Voir les absences</a>
+				<a ng-show="$bt.officier" href="/console"><i class="icon-monitor"></i> Console</a>
 			</div>
 			<div class="slidable" ng-class="{ slided: display != 'associate' }">
 				<a ng-click="setDisplay('characters');"><i class="icon-left"></i> Retour</a>
