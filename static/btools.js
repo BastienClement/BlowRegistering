@@ -652,7 +652,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		}
 		
 		$scope.id = $bt.event.id;
-		$scope.answer = $bt.event.answer;
+		$scope.answer = $bt.event.answer || 1;
 		$scope.note = $bt.event.note;
 		
 		$scope.initDone = true;
