@@ -220,6 +220,7 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 			standby_counter = 0;
 		}
 		
+		var query_tag = $bt.tag;
 		$bt.tag = false;
 		
 		var state = {
@@ -228,7 +229,8 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 			d: $scope.display,
 			a: $scope.arg,
 			m: $scope.month,
-			y: $scope.year
+			y: $scope.year,
+			t: query_tag
 		};
 		
 		jQuery.ajax({

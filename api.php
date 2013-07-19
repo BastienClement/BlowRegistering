@@ -513,14 +513,18 @@ endif;
 // Officier flag
 $return["officier"] = is_blow_officier();
 
-// Signature tag
-$return["tag"] = sha1(json_encode($return));
-
 // Username
 $return["username"] = $user->data["username"];
 
 // Echo
 $return["display"] = $d;
 $return["arg"] = $a;
+
+// Signature tag
+$return["tag"] = sha1(json_encode($return));
+
+if($return["tag"] == $_POST["t"]):
+	$return = ["tag" => $return["tag"]];
+endif;
 
 echo json_encode($return);
