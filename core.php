@@ -39,7 +39,7 @@ function blow_header() {
 	$head = ob_get_contents();
 	ob_end_clean();
 	
-	echo str_replace("</head>", implode("\n", $header_inject)."\n</head>", $head);
+	echo preg_replace("/(<body.*?>)/", "$1\n".implode("\n", $header_inject), $head);
 }
 
 function blow_footer() {
