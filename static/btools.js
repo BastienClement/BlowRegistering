@@ -794,7 +794,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		var comp = ev.raidcomp[i];
 		if(comp) {
 			for(var slot in comp) {
-				if(ev.raidcomp_roster[comp[slot].id].owner == $bt.chars[0].owner) {
+				if(ev.raidcomp_roster[comp[slot].id] && ev.raidcomp_roster[comp[slot].id].owner == $bt.chars[0].owner) {
 					return true;
 				}
 			}

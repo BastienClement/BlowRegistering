@@ -445,7 +445,7 @@ if($d == "event"):
 		$event["rerolls"]         = [];
 		
 		if($event["state"] || $event["editable"]):
-			$db->sql_query("SELECT c.id, c.owner, c.name, c.server, c.class, c.role FROM bt_chars AS c WHERE c.owner IN (SELECT DISTINCT c.owner FROM bt_chars AS c WHERE id IN (SELECT DISTINCT rc.char FROM bt_raidcomps AS rc WHERE event = $id)) AND active = 1");
+			$db->sql_query("SELECT DISTINCT c.id, c.owner, c.name, c.server, c.class, c.role FROM bt_chars AS c WHERE (c.owner IN (SELECT DISTINCT c.owner FROM bt_chars AS c WHERE id IN (SELECT DISTINCT rc.char FROM bt_raidcomps AS rc WHERE event = $id)) AND active = 1) OR c.id IN (SELECT DISTINCT rc.char FROM bt_raidcomps AS rc WHERE event = $id)");
 			while($row = $db->sql_fetchrow()):
 				$row["owner"] = (int) $row["owner"];
 				if(!isset($event["rerolls"][$row["owner"]])) $event["rerolls"][$row["owner"]] = [];
