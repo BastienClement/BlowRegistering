@@ -34,12 +34,24 @@ function blow_header() {
 		'<link rel="stylesheet" data-prefix="1" type="text/css" href="/static/btools.css">'
 	);
 	
+	$google_watchdog = <<<JS_CODE
+<script type="text/javascript">
+	var google_watchdog = setTimeout(function() {
+		location.reload();
+	}, 2000);
+</script>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Droid+Sans+Mono">
+<script type="text/javascript">
+	clearTimeout(google_watchdog);
+</script>
+JS_CODE;
+	
 	ob_start();
 	get_header();
 	$head = ob_get_contents();
 	ob_end_clean();
 	
-	echo preg_replace("/(<body.*?>)/", "$1\n".implode("\n", $header_inject), $head);
+	echo preg_replace("/(<body.*?>)/", "$1\n".implode("\n", $header_inject).$google_watchdog, $head);
 }
 
 function blow_footer() {
