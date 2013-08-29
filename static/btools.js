@@ -847,8 +847,11 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 			return false;
 		}
 		
+		$scope.dragging_role = null;
+		
 		if(group && slot) {
 			$scope.dragging_slot = $scope.computeSlotId(group, slot);
+			$scope.dragging_role = event.raidcomp[$scope.current_comp][$scope.dragging_slot].role;
 		}
 		
 		$scope.dragging_char = c;
@@ -897,6 +900,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 						comp: $scope.current_comp,
 						slot: destSlot,
 						char: $scope.dragging_char.id,
+						role: $scope.dragging_role
 					}, true);
 				}
 			}

@@ -367,9 +367,16 @@ switch($call):
 					case "set-raidcomp":
 						$char = cast_cid($args["char"]);
 						
+						$role = $args["role"];
+						if(!in_array($role, ["HEALING", "TANK", "DPS", "NULL"])):
+							$role = "NULL";
+						else:
+							$role = "'$role'";
+						endif;
+						
 						$db->_sql_transaction("begin");
 						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp AND `char` IN (SELECT `id` as `char` FROM bt_chars WHERE `owner` = (SELECT `owner` FROM bt_chars WHERE `id` = $char LIMIT 1)) LIMIT 1");
-						$db->sql_query("INSERT INTO bt_raidcomps (`event`, `comp`, `slot`, `char`) VALUES ($eventid, $comp, $slot, $char) ON DUPLICATE KEY UPDATE `char` = VALUES(`char`), forced_role = NULL");
+						$db->sql_query("INSERT INTO bt_raidcomps (`event`, `comp`, `slot`, `char`, `forced_role`) VALUES ($eventid, $comp, $slot, $char, $role) ON DUPLICATE KEY UPDATE `char` = VALUES(`char`), forced_role = $role");
 						$db->_sql_transaction("commit");
 						break;
 					
