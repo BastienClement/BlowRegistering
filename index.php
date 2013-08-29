@@ -286,7 +286,7 @@
 						<a class="button tab icon" ng-class="{ selected: tab == 0 }" ng-click="tab = 0" title="Non registers"><i class="icon-hourglass"></i>&nbsp;&nbsp;{{ getNonregisterCount() }}&nbsp;</a>
 					</div>
 					<div class="chars" ng-show="getEventType() == 1">
-						<div class="char" ng-repeat="char in getTabChars()" ng-class="{ used: isCharUsed(char.id) }" onmousedown="return $evScope.dragStart('{{ char.id }}', event);">
+						<div class="char" ng-repeat="char in getTabChars()" ng-class="{ used: isPlayerUsed(char.owner) }" onmousedown="return $evScope.dragStart('{{ char.id }}', event);">
 							<div class="name c{{ char.class }}" title="{{ formatDate(char.time) }}">
 								<img ng-src="/img/{{ char.role }}.png">
 								{{ char.name }}

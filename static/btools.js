@@ -807,15 +807,16 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		return (group - 1) * 5 + slot;
 	};
 	
-	$scope.isCharUsed = function(id) {
-		if(id == $scope.dragging_char.id) {
+	$scope.isPlayerUsed = function(owner) {
+		if(owner == $scope.dragging_char.owner) {
 			return true;
 		}
 		
-		var raidcomp = $scope.getEvent().raidcomp;
+		var ev = $scope.getEvent();
+		var raidcomp = ev.raidcomp;
 		for(var comp in raidcomp) {
 			for(var slot in raidcomp[comp]) {
-				if(raidcomp[comp][slot].id == id) {
+				if(ev.raidcomp_roster[raidcomp[comp][slot].id].owner == owner) {
 					return true;
 				}
 			}
