@@ -884,12 +884,21 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 			var destSlot = slotHover.data("slotid");
 			
 			if(!sourceSlot || sourceSlot != destSlot) {
-				$scope.update("set-raidcomp", {
-					event: $bt.event.id,
-					comp: $scope.current_comp,
-					slot: destSlot,
-					char: $scope.dragging_char.id
-				}, true);
+				if(sourceSlot && $scope.getEvent().raidcomp[$scope.current_comp][destSlot]) {
+					$scope.update("swap-raidcomp", {
+						event: $bt.event.id,
+						comp: $scope.current_comp,
+						slot: sourceSlot,
+						slot2: destSlot
+					}, true);
+				} else {
+					$scope.update("set-raidcomp", {
+						event: $bt.event.id,
+						comp: $scope.current_comp,
+						slot: destSlot,
+						char: $scope.dragging_char.id,
+					}, true);
+				}
 			}
 		
 			slotHover.removeClass("hover");

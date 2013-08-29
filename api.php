@@ -317,6 +317,7 @@ switch($call):
 	
 	case "set-raidcomp":
 	case "set-raidcomp-role":
+	case "swap-raidcomp":
 	case "unset-raidcomp":
 	case "empty-raidcomp":
 	case "set-event-state":
@@ -334,6 +335,7 @@ switch($call):
 			case "set-raidcomp":
 			case "unset-raidcomp":
 			case "set-raidcomp-role":		
+			case "swap-raidcomp":
 			case "empty-raidcomp":
 				$slot = (int) $args["slot"];
 				if($slot < 1 || $slot > 40):
@@ -348,6 +350,20 @@ switch($call):
 				endif;
 				
 				switch($call):
+					case "swap-raidcomp":
+						$slot2 = (int) $args["slot2"];
+						if($slot2 < 1 || $slot2 > 40):
+							set_error("Slot de raid-comp non valide.");
+							break;
+						endif;
+						
+						$db->_sql_transaction("begin");
+						$db->sql_query("UPDATE bt_raidcomps SET `slot` = -1     WHERE `event` = $eventid AND `comp` = $comp AND `slot` = $slot2 LIMIT 1");
+						$db->sql_query("UPDATE bt_raidcomps SET `slot` = $slot2 WHERE `event` = $eventid AND `comp` = $comp AND `slot` = $slot  LIMIT 1");
+						$db->sql_query("UPDATE bt_raidcomps SET `slot` = $slot  WHERE `event` = $eventid AND `comp` = $comp AND `slot` = -1     LIMIT 1");
+						$db->_sql_transaction("commit");
+						break;
+					
 					case "set-raidcomp":
 						$char = cast_cid($args["char"]);
 						
