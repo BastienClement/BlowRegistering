@@ -136,10 +136,10 @@
 				<a ng-click="setDisplay('associate')"><i class="icon-link"></i> Associer</a>
 			</div>
 			<div class="slidable" ng-class="{ slided: display != 'event' }">
-				<span ng-show="$bt.event.editable">
+				<!--<span ng-show="$bt.event.editable">
 					<a ng-click="setDisplay('editevent', getEventID())"><i class="icon-pencil"></i> Editer</a>
 					<a ng-click=""><i class="icon-trash"></i> Supprimer</a>
-				</span>
+				</span>-->
 			</div>
 		</div>
 	</div>
@@ -155,9 +155,9 @@
 						<div class="day-wrapper">
 							<div class="day">
 								<span>{{ data.day }}</span>
-								<div class="actions">
+								<!--<div class="actions">
 									<a ng-click="setDisplay('editevent', 0)"><i class="icon-plus"></i></a>							
-								</div>
+								</div>-->
 							</div>
 							<div class="events">
 								<div class="event" ng-repeat="event in data.events" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, locked: event.state == 1, canceled: event.state == 2 }" ng-click="setDisplay('event', event.id, { type: event.type, title: event.title })">
@@ -329,9 +329,9 @@
 									<div class="warning" ng-show="slotWarning(group, slot)" title="{{ slotWarning(group, slot) }}">
 										<i class="icon-attention"></i>
 									</div>
-									<div class="context-arrow">
+									<!--<div class="context-arrow">
 										<i class="icon-down-open"></i>
-									</div>
+									</div>-->
 									<div class="context">
 										<div class="context-body" onmousedown="event.stopPropagation(); return false;">
 											<div class="role-selector">
