@@ -468,7 +468,7 @@ else:
 endif;
 
 // Events
-if($d == "calendar"):
+//if($d == "calendar"):
 	function importNumericVar(&$var, $name, $lower, $upper, $error) {
 		if(!isset($_POST[$name]) || !is_numeric($_POST[$name])) set_error($error, true);
 		$var = (int) $_POST[$name];
@@ -492,7 +492,7 @@ if($d == "calendar"):
 		
 		$return["events"][$day_id][] = cast_event($row);
 	endwhile;
-endif;
+//endif;
 
 // Chars
 $return["chars"] = $chars;
