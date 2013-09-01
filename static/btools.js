@@ -1095,10 +1095,11 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		
 		function makeMyDay(offset) {
 			var day = new Date(now + oneDay * offset);
+			var day_id = pad(day.getFullYear()) + "-" + pad(day.getMonth() + 1) + "-" + pad(day.getDate());
 			
 			return {
 				title: dayNames[day.getDay()] + " – " + pad(day.getDate()) + "/" + pad(day.getMonth() + 1),
-				events: $bt.events[day.toISOString().slice(0, 10)] || [],
+				events: $bt.events[day_id] || [],
 				today: offset == 0
 			};
 		}
