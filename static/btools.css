@@ -458,11 +458,13 @@ a.button.in-line {
 }
 
 #calendar .event .name,
+#stripCalendar .event .name,
 .calendarLegend td {
 	color: #C1C100;
 }
 
-#calendar .event.note .name {
+#calendar .event.note .name,
+#stripCalendar .event.note .name {
 	color: #AAA;
 }
 
