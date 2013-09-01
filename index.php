@@ -273,8 +273,8 @@
 					Pour le moment, seul les personnages guildés peuvent être associés à un utilisateur.
 				</div>
 			</div>
-			<div class="panel" ng-switch-when="event">
-				<div class="event-viewer {{ layout || '' }}" ng-class="{ note: getEventType() == 2 }" ng-controller="EventViewer" onmouseup="return $evScope.dragStop();" onmousemove="$evScope.dragUpdate(event);">
+			<div class="panel" ng-controller="EventViewer" ng-switch-when="event">
+				<div class="event-viewer {{ layout || '' }}" ng-class="{ note: getEventType() == 2 }" onmouseup="return $evScope.dragStop();" onmousemove="$evScope.dragUpdate(event);">
 					<div id="dragIndicator" ng-show="dragging_char.name" class="c{{ dragging_char.class }}">
 						<img ng-src="/img/{{ dragging_char.role || 'DPS' }}.png">
 						{{ dragging_char.name }}
@@ -404,6 +404,26 @@
 					</div>
 					<div class="clearfix"></div>
 				</div>
+				<table id="stripCalendar">
+					<tr>	
+						<th ng-repeat="day in getStripDays(getEvent().date)">{{ day.title }}</th>
+					</tr>
+					<tr>
+						<td ng-repeat="day in getStripDays(getEvent().date)" ng-class="{ today: day.today }">
+							<div class="day-wrapper">
+								<div class="events">
+									<div class="event" ng-repeat="event in day.events" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, locked: event.state == 1, canceled: event.state == 2 }" ng-click="setDisplay('event', event.id, { type: event.type, title: event.title })">
+										<a class="name">
+											<i ng-class="{ 'icon-flag': event.type == 2 }"></i>
+											{{ event.title }}
+										</a>
+										<div class="hour">{{ event.hour }}</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
 			</div>
 			<div class="panel" ng-switch-when="absences">
 				<div class="box with-icon">

@@ -1063,6 +1063,57 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				return "L'événement " + title + " est annulé. Pensez à vous register pour les prochains événements.";
 		}
 	};
+	
+	var emptyStrip = [];
+	var stripCache;
+	
+	$scope.getStripDays = function(day) {
+		if(!day) {
+			return emptyStrip;
+		}
+		
+		if(stripCache && stripCache.day == day) {
+			return stripCache;
+		}
+		
+		var now = new Date(day).getTime();
+		var oneDay = 1000 * 60 * 60 * 24;
+		
+		var dayNames = [
+			"Dimanche",
+			"Lundi", 
+			"Mardi",
+			"Mercredi",
+			"Jeudi",
+			"Vendredi",
+			"Samedi"
+		];
+		
+		function pad(n) {
+			return (n < 10) ? "0" + n : n;
+		}
+		
+		function makeMyDay(offset) {
+			var day = new Date(now + oneDay * offset);
+			
+			return {
+				title: dayNames[day.getDay()] + " – " + pad(day.getDate()) + "/" + pad(day.getMonth() + 1),
+				events: $bt.events[day.toISOString().slice(0, 10)] || [],
+				today: offset == 0
+			};
+		}
+		
+		var strip = [
+			makeMyDay(-2),
+			makeMyDay(-1),
+			makeMyDay(0),
+			makeMyDay(1),
+			makeMyDay(2)
+		];
+		
+		strip.day = day;
+		return (stripCache = strip);
+	};
 });
 
 BlowTools.filter("markdown", function() {
