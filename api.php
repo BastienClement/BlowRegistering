@@ -471,7 +471,7 @@ if($d == "event"):
 				$slack = $slackers[$row['owner']];
 				$slack_from = preg_replace("/^\d{4}\-(\d{2})\-(\d{2})$/", "$2/$1", $slack["from"]);
 				$slack_to = preg_replace("/^\d{4}\-(\d{2})\-(\d{2})$/", "$2/$1", $slack["to"]);
-				$row["slack"] = "Absence du  $slack_from  au  $slack_to\n\n{$slack['reason']}";
+				$row["slack"] = "** Absence du  $slack_from  au  $slack_to **\n\n{$slack['reason']}";
 				$row["slack_short"] = "Absence du  $slack_from  au  $slack_to";
 			endif;
 			$event["answers"][] = cast_event_answer($row);
