@@ -4,7 +4,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `bt_answers` (
   `event` mediumint(8) unsigned NOT NULL,
   `user` mediumint(8) unsigned NOT NULL,
-  `answer` enum('1','2') NOT NULL,
+  `answer` tinyint(1) NOT NULL,
   `time` datetime NOT NULL,
   `note` text NOT NULL,
   PRIMARY KEY (`event`,`user`),
@@ -52,12 +52,12 @@ CREATE TABLE `bt_classes` (
 CREATE TABLE `bt_events` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
-  `type` enum('1','2') NOT NULL,
+  `type` tinyint(1) NOT NULL,
   `desc` text,
   `date` datetime NOT NULL,
   `owner` mediumint(8) unsigned NOT NULL,
   `event_note` text,
-  `state` enum('0','1','2') NOT NULL DEFAULT '0',
+  `state` tinyint(1) NOT NULL DEFAULT '0',
   `editing` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `date` (`date`),
@@ -74,8 +74,8 @@ CREATE TABLE `bt_races` (
 
 CREATE TABLE `bt_raidcomps` (
   `event` mediumint(8) unsigned NOT NULL,
-  `comp` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `slot` tinyint(3) NOT NULL COMMENT 'Must be signed!',
+  `comp` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `slot` tinyint(2) NOT NULL COMMENT 'Must be signed!',
   `char` bigint(20) unsigned NOT NULL,
   `forced_role` enum('TANK','DPS','HEALING') DEFAULT NULL,
   PRIMARY KEY (`event`,`comp`,`slot`),
