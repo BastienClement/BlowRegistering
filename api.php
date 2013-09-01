@@ -457,9 +457,23 @@ if($d == "event"):
 			$event["event_note"] = null;
 		endif;
 		
+		$slackers = [];
+		$db->sql_query("SELECT `player`, `reason`, `from`, `to` FROM `bt_slacks` WHERE '{$event['date']}' BETWEEN `from` AND `to`");
+		while($row = $db->sql_fetchrow()):
+			$slackers[$row["player"]] = ["reason" => $row["reason"], "from" => $row["from"], "to" => $row["to"]];
+		endwhile;
+		
 		$event["answers"] = [];
 		$db->sql_query("SELECT u.group_id, a.answer, a.time, a.note, c.id, c.name, c.server, c.class, c.role, c.owner FROM phpbb_users AS u LEFT JOIN bt_answers AS a ON user_id = user AND event = $id JOIN bt_chars AS c ON c.owner = user_id AND main = 1 WHERE group_id IN (8, 9, 10, 11) ORDER BY c.class ASC, c.name ASC");
 		while($row = $db->sql_fetchrow()):
+			if(isset($slackers[$row["owner"]]) && $row["answer"] != 1):
+				$row["answer"] = 2;
+				$slack = $slackers[$row['owner']];
+				$slack_from = preg_replace("/^\d{4}\-(\d{2})\-(\d{2})$/", "$2/$1", $slack["from"]);
+				$slack_to = preg_replace("/^\d{4}\-(\d{2})\-(\d{2})$/", "$2/$1", $slack["to"]);
+				$row["slack"] = "Absence du  $slack_from  au  $slack_to\n\n{$slack['reason']}";
+				$row["slack_short"] = "Absence du  $slack_from  au  $slack_to";
+			endif;
 			$event["answers"][] = cast_event_answer($row);
 		endwhile;
 		

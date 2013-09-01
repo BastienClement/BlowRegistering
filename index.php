@@ -291,10 +291,13 @@
 								<img ng-src="/img/{{ char.role }}.png">
 								{{ char.name }}
 							</div>
-							<div class="note" ng-show="char.note" title="{{ char.note }}">
+							<div class="note" ng-show="char.slack" title="{{ char.slack }}">
+								<i class="icon-paper-plane"></i>
+							</div>
+							<div class="note" ng-show="char.note && !char.slack" title="{{ char.note }}">
 								<i class="icon-feather"></i>
 							</div>
-							<div class="noteDetail">{{ char.note }}</div>
+							<div class="noteDetail">{{ char.slack_short || char.note }}</div>
 						</div>
 						<div class="clearfix"></div>
 						<div ng-show="getTabChars().length == 0">
