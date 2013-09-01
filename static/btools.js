@@ -621,9 +621,7 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 	};
 	
 	$scope.hideDeclineModal = function(reason) {
-		if(reason) {
-			$scope.update("register", { id: decline_modal, answer: 2, note: reason });
-		}
+		$scope.update("register", { id: decline_modal, answer: 2, note: reason || null });
 		decline_modal = false;
 	};
 	

@@ -302,10 +302,10 @@ switch($call):
 			$update .= ", note = '$note'";
 		endif;
 		
-		if($answer == 2 && $note == ""):
+		/*if($answer == 2 && $note == ""):
 			set_error("Vous devez fournir une raison pour vous enregistrer comme indisponible.");
 			break;
-		endif;
+		endif;*/
 		
 		$db->sql_query("INSERT INTO bt_answers ($fields) VALUES ($values) ON DUPLICATE KEY UPDATE $update");
 		break;
