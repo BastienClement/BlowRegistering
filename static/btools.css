@@ -408,12 +408,16 @@ a.button.in-line {
 	margin-top: 0px;
 }
 
-#calendar .event:hover, #stripCalendar .event:hover {
+#calendar .event:hover,
+#stripCalendar .event:hover,
+#stripCalendar .event.current {
 	background: #3d3d3d;
 	cursor: pointer;
 }
 
-#calendar .today .event:hover, #stripCalendar .today .event:hover {
+#calendar .today .event:hover,
+#stripCalendar .today .event:hover,
+#stripCalendar .today .event.current {
 	background: #262626;
 }
 
