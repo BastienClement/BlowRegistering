@@ -64,6 +64,15 @@ CREATE TABLE `bt_events` (
   KEY `owner` (`owner`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE `bt_logs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL,
+  `source` varchar(50) NOT NULL,
+  `desc` varchar(50) NOT NULL,
+  `payload` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE `bt_races` (
   `id` tinyint(3) unsigned NOT NULL,
   `mask` int(10) unsigned NOT NULL,

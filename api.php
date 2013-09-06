@@ -35,6 +35,19 @@ if(!is_blow_raider()):
 	set_error("Votre session forum a expiré, veuillez vous reconnecter.", true);
 endif;
 
+function bt_log($what, $payload = NULL) {
+	global $db, $user;
+	
+	$who = $db->sql_escape($user->data["username"]);
+	$what = $db->sql_escape($what);
+	
+	if(is_null($payload)) $payload = "";
+	elseif(is_array($payload)) $payload = json_encode($payload);
+	else $payload = $db->sql_escape($payload);
+	
+	$db->sql_query("INSERT INTO `bt_logs` (`time`, `source`, `desc`, `payload`) VALUES (NOW(), '$who', '$what', '$payload')");
+}
+
 // --- Casts -------------------------------------------------------------------
 
 function cast_int(&$val, $default = null) {
@@ -173,6 +186,7 @@ switch($call):
 			break;
 		endif;
 		
+		bt_log("SHOUTBOX_ANNOUNCE", $text);
 		$db->sql_query("INSERT INTO `phpbb_mchat` (`user_id`, `user_ip`, `message`, `message_time`) VALUES (144, '127.0.0.1', '$text', $now)");
 		break;
 	
@@ -188,6 +202,8 @@ switch($call):
 			break;
 		endif;
 		
+		bt_log("CHARS_ASSOCIATE_BLOW", "$id");
+		
 		refresh_chars();
 		set_redirect("characters");
 		break;
@@ -200,6 +216,8 @@ switch($call):
 			set_error("Vous ne pouvez pas dissocier ce personnage.");
 			break;
 		endif;
+		
+		bt_log("CHARS_DISSOCIATE", "$id");
 		
 		refresh_chars();
 		break;
@@ -230,6 +248,8 @@ switch($call):
 				
 				$db->sql_query("UPDATE bt_chars SET main = 0 WHERE id != $id AND owner = $u");
 				$db->_sql_transaction("commit");
+				
+				bt_log("CHARS_SET_MAIN", "$id");
 				break;
 			
 			case "set-role":
@@ -240,6 +260,7 @@ switch($call):
 				endif;
 				
 				$db->sql_query("UPDATE bt_chars SET role = '$role' WHERE id = $id AND owner = $u LIMIT 1");
+				bt_log("CHARS_SET_ROLE", "$id, $role");
 				break;
 			
 			case "set-active":
@@ -247,10 +268,12 @@ switch($call):
 				switch($call):
 					case "set-active":
 						$db->sql_query("UPDATE bt_chars SET active = 1 WHERE id = $id AND owner = $u LIMIT 1");
+						bt_log("CHARS_SET_ACTIVE", "$id");
 						break;
 						
 					case "set-inactive":
 						$db->sql_query("UPDATE bt_chars SET active = 0 WHERE id = $id AND owner = $u LIMIT 1");
+						bt_log("CHARS_SET_INACTIVE", "$id");
 						break;
 				endswitch;
 				
@@ -292,6 +315,8 @@ switch($call):
 			$fields .= ", answer";
 			$values .= ", '$answer'";
 			$update .= ", answer = '$answer'";
+		else:
+			$answer = -1;
 		endif;
 		
 		if(isset($args["note"])):
@@ -300,6 +325,8 @@ switch($call):
 			$fields .= ", note";
 			$values .= ", '$note'";
 			$update .= ", note = '$note'";
+		else:
+			$note = "";
 		endif;
 		
 		/*if($answer == 2 && $note == ""):
@@ -308,10 +335,12 @@ switch($call):
 		endif;*/
 		
 		$db->sql_query("INSERT INTO bt_answers ($fields) VALUES ($values) ON DUPLICATE KEY UPDATE $update");
+		bt_log("CALENDAR_REGISTER", "event: $id, answer: $answer, note: $note");
 		break;
 		
 	case "accept-all":
 		require_chars();
+		bt_log("CALENDAR_MASS_ACCEPT");
 		$db->sql_query("INSERT INTO bt_answers (event, user, answer, time) SELECT id AS event, $u AS user, 1 AS answer, NOW() AS time FROM bt_events AS e LEFT JOIN bt_answers AS a ON a.user = $u AND a.event = e.id WHERE e.type = 1 AND e.date >= NOW() AND state = 0 AND a.answer IS NULL");
 		break;
 	
@@ -362,6 +391,8 @@ switch($call):
 						$db->sql_query("UPDATE bt_raidcomps SET `slot` = $slot2 WHERE `event` = $eventid AND `comp` = $comp AND `slot` = $slot  LIMIT 1");
 						$db->sql_query("UPDATE bt_raidcomps SET `slot` = $slot  WHERE `event` = $eventid AND `comp` = $comp AND `slot` = -1     LIMIT 1");
 						$db->_sql_transaction("commit");
+						
+						bt_log("CALENDAR_RAIDCOMP_SWAP", "event: $eventid, comp: $comp, slots: $slot | $slot2");
 						break;
 					
 					case "set-raidcomp":
@@ -378,6 +409,8 @@ switch($call):
 						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp AND `char` IN (SELECT `id` as `char` FROM bt_chars WHERE `owner` = (SELECT `owner` FROM bt_chars WHERE `id` = $char LIMIT 1)) LIMIT 1");
 						$db->sql_query("INSERT INTO bt_raidcomps (`event`, `comp`, `slot`, `char`, `forced_role`) VALUES ($eventid, $comp, $slot, $char, $role) ON DUPLICATE KEY UPDATE `char` = VALUES(`char`), forced_role = $role");
 						$db->_sql_transaction("commit");
+						
+						bt_log("CALENDAR_RAIDCOMP_SET", "event: $eventid, comp: $comp, slot: $slot, char: $char, role: $role");
 						break;
 					
 					case "set-raidcomp-role":
@@ -392,15 +425,18 @@ switch($call):
 						endif;
 						
 						$db->sql_query("UPDATE bt_raidcomps SET forced_role = $role WHERE `event` = $eventid AND `comp` = $comp AND `slot` = $slot LIMIT 1");
+						bt_log("CALENDAR_RAIDCOMP_SET_ROLE", "event: $eventid, comp: $comp, slot: $slot, role: $role");
 						break;
 					
 					case "unset-raidcomp":
 						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp AND `slot` = $slot LIMIT 1");
+						bt_log("CALENDAR_RAIDCOMP_UNSET", "event: $eventid, comp: $comp, slot: $slot");
 						break;
 					
 					
 					case "empty-raidcomp":
 						$db->sql_query("DELETE FROM bt_raidcomps WHERE `event` = $eventid AND `comp` = $comp LIMIT 40");
+						bt_log("CALENDAR_RAIDCOMP_WIPE", "event: $eventid, comp: $comp");
 						break;
 				endswitch;
 				break;
@@ -412,6 +448,7 @@ switch($call):
 					break;
 				endif;
 				$db->sql_query("UPDATE bt_events SET state = $state WHERE id = $eventid LIMIT 1");
+				bt_log("CALENDAR_SET_STATE", "event: $eventid, state: $state");
 				break;
 			
 			case "set-event-editing":
@@ -424,6 +461,7 @@ switch($call):
 				if(empty($editing)):
 					$text = empty($text) ? "NULL" : "'$text'";
 					$db->sql_query("UPDATE bt_events SET editing = NULL, event_note = $text WHERE id = $eventid LIMIT 1");
+					bt_log("CALENDAR_END_EDITING", "event: $eventid, note: $text");
 				else:
 					$db->_sql_transaction("begin");
 					$db->sql_query("SELECT id FROM bt_events WHERE id = $eventid AND editing IS NULL LIMIT 1");
@@ -435,6 +473,7 @@ switch($call):
 					endif;
 					$db->sql_query("UPDATE bt_events SET editing = '$editing' WHERE id = $eventid LIMIT 1");
 					$db->_sql_transaction("commit");
+					bt_log("CALENDAR_START_EDITING", "event: $eventid, editing: $editing");
 				endif;
 		endswitch;
 		break;
