@@ -1066,54 +1066,57 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	
 	var emptyStrip = [];
 	var stripCache;
+	var stripTag;
 	
 	$scope.getStripDays = function(day) {
 		if(!day) {
 			return emptyStrip;
 		}
 		
-		if(stripCache && stripCache.day == day) {
-			return stripCache;
-		}
+		if($bt.tag && $bt.tag == stripTag) return stripCache; else stripTag = $bt.tag;
 		
-		var now = new Date(day).getTime();
-		var oneDay = 1000 * 60 * 60 * 24;
-		
-		var dayNames = [
-			"Dimanche",
-			"Lundi", 
-			"Mardi",
-			"Mercredi",
-			"Jeudi",
-			"Vendredi",
-			"Samedi"
-		];
-		
-		function pad(n) {
-			return (n < 10) ? "0" + n : n;
-		}
-		
-		function makeMyDay(offset) {
-			var day = new Date(now + oneDay * offset);
-			var day_id = pad(day.getFullYear()) + "-" + pad(day.getMonth() + 1) + "-" + pad(day.getDate());
+		if($bt.tag) {
+			var now = new Date(day).getTime();
+			var oneDay = 1000 * 60 * 60 * 24;
 			
-			return {
-				title: dayNames[day.getDay()] + " – " + pad(day.getDate()) + "/" + pad(day.getMonth() + 1),
-				events: $bt.events[day_id] || [],
-				today: day.toDateString() == (new Date).toDateString()
-			};
+			var dayNames = [
+				"Dimanche",
+				"Lundi", 
+				"Mardi",
+				"Mercredi",
+				"Jeudi",
+				"Vendredi",
+				"Samedi"
+			];
+			
+			function pad(n) {
+				return (n < 10) ? "0" + n : n;
+			}
+			
+			function makeMyDay(offset) {
+				var day = new Date(now + oneDay * offset);
+				var day_id = pad(day.getFullYear()) + "-" + pad(day.getMonth() + 1) + "-" + pad(day.getDate());
+				
+				return {
+					title: dayNames[day.getDay()] + " – " + pad(day.getDate()) + "/" + pad(day.getMonth() + 1),
+					events: $bt.events[day_id] || [],
+					today: day.toDateString() == (new Date).toDateString()
+				};
+			}
+			
+			var strip = [
+				makeMyDay(-2),
+				makeMyDay(-1),
+				makeMyDay(0),
+				makeMyDay(1),
+				makeMyDay(2)
+			];
+			
+			strip.day = day;
+			stripCache = strip;
 		}
 		
-		var strip = [
-			makeMyDay(-2),
-			makeMyDay(-1),
-			makeMyDay(0),
-			makeMyDay(1),
-			makeMyDay(2)
-		];
-		
-		strip.day = day;
-		return (stripCache = strip);
+		return stripCache || [];
 	};
 });
 
