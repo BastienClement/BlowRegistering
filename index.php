@@ -412,7 +412,7 @@
 						<td ng-repeat="day in getStripDays(getEvent().date)" ng-class="{ today: day.today }">
 							<div class="day-wrapper">
 								<div class="events">
-									<div class="event" ng-repeat="event in day.events" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, locked: event.state == 1, canceled: event.state == 2, current: event.id == getEvent().id }" ng-click="resetViewer(); setDisplay('event', event.id, { type: event.type, title: event.title })">
+									<div class="event" ng-repeat="event in sortStripEvents(day.events)" ng-class="{ accepted: event.answer == 1, declined: event.answer == 2, raid: event.type == 1, note: event.type == 2, locked: event.state == 1, canceled: event.state == 2, current: event.id == getEvent().id }" ng-click="getEvent().id != event.id && (resetViewer() || setDisplay('event', event.id, { type: event.type, title: event.title }))">
 										<a class="name">
 											<i ng-class="{ 'icon-flag': event.type == 2 }"></i>
 											{{ event.title }}

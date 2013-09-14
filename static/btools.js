@@ -1118,6 +1118,13 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		
 		return stripCache || [];
 	};
+	
+	$scope.sortStripEvents = function(events) {
+		events.sort(function(a, b) {
+			return a.hour.localeCompare(b.hour);
+		});;
+		return events;
+	};
 });
 
 BlowTools.filter("markdown", function() {
