@@ -646,6 +646,9 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	$scope.data_available = false;
 	$scope.layout = false;
 	
+	var max_comp = 0;
+	$scope.current_comp = 0;
+	
 	$scope.initViewer = function() {
 		if($scope.initDone) {
 			return;
@@ -657,6 +660,9 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		
 		$scope.initDone = true;
 		$scope.data_available = true;
+		
+		max_comp = 0;
+		$scope.current_comp = 0;
 	};
 	
 	var ev_cache = {};
@@ -748,10 +754,10 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	var slots, slotHover;
 	var slotWidth, slotHeight;
 	
-	var max_comp = 0;
-	$scope.current_comp = 0;
-	
 	$scope.addComp = function() {
+		if(!max_comp) {
+			max_comp = $scope.getCompCount().length-1;
+		}
 		max_comp++;
 	};
 	
