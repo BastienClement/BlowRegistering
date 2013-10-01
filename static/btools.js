@@ -812,13 +812,14 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 		
 		var ev = $scope.getEvent();
 		var raidcomp = ev.raidcomp;
-		for(var comp in raidcomp) {
+		//for(var comp in raidcomp) {
+		var comp = $scope.current_comp;
 			for(var slot in raidcomp[comp]) {
 				if(ev.raidcomp_roster[raidcomp[comp][slot].id].owner == owner) {
 					return true;
 				}
 			}
-		}
+		//}
 		
 		return false;
 	};
