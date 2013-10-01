@@ -964,7 +964,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				return "Ce joueur n'est pas enregistré comme disponible"
 			}
 			
-			if($scope.getEvent().raidcomp.some(function(rc, i) {
+			/*if($scope.getEvent().raidcomp.some(function(rc, i) {
 				if(i == $scope.current_comp) return false;
 				for(var slot in rc) {
 					if(rc[slot].id == char.id) {
@@ -973,7 +973,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 				}
 			})) {
 				return "Ce personnage est dans plusieurs raid-comp simultanément"
-			}
+			}*/
 		}
 		return false;
 	};
