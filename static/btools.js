@@ -765,7 +765,8 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	};
 	
 	$scope.canAddComp = function() {
-		return max_comp < 2;
+		return true;
+		//return max_comp < 2;
 	};
 	
 	$scope.getCompCount = function() {

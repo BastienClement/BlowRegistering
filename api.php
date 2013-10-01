@@ -373,7 +373,7 @@ switch($call):
 				endif;
 				
 				$comp = (int) $args["comp"];
-				if($comp < 0 || $comp > 3):
+				if($comp < 0 || $comp > 99):
 					set_error("Raid-comp non valide.");
 					break;
 				endif;
