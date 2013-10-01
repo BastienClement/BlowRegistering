@@ -756,6 +756,7 @@ var EventViewer = BlowTools.controller("EventViewer", function($scope) {
 	};
 	
 	$scope.emptyComp = function() {
+		if(!confirm("Êtes-vous sûr ?")) return;
 		$scope.update("empty-raidcomp", {
 			event: $bt.event.id,
 			comp: $scope.current_comp,
