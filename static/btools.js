@@ -233,6 +233,10 @@ var Calendar = BlowTools.controller("Calendar", function($scope) {
 			t: query_tag
 		};
 		
+		if((!state.m && state.m !== 0) || !state.y) {
+			return;
+		}
+		
 		jQuery.ajax({
 			type: "POST",
 			url: "/api.php",

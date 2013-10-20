@@ -551,6 +551,9 @@ endif;
 		if($var < $lower || $var > $upper) set_error($error, true);
 	}
 	
+	//if(!$_POST["m"]) $_POST["m"] = date("m");
+	//if(!$_POST["y"]) $_POST["y"] = date("Y");
+	
 	importNumericVar($m, "m", 0, 11, "Erreur lors de l'importation du mois sélectionné.");
 	importNumericVar($y, "y", 1000, 9999, "Erreur lors de l'importation de l'année sélectionnée.");
 
